@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilo.css">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Calculadora de Respawn de MVPs</h1>
+    <h2 id="detalhe">(Insira o horário do local onde você estiver)</h2>
+    <form id="respawnForm">
+        <div class="form-group">
+            <div class="input-container">
+                <label for="horaMorte">Horário da morte:</label>
+                <input type="datetime-local" id="horaMorte" name="horaMorte" required>
+            </div>
+            <div class="input-container">
+                <label for="monstro">Monstro:</label>
+                <select id="monstro" name="monstro">
+                    <option value="ifrit">Ifrit (11h)</option>
+                    <option value="valk">Valk (8h)</option>
+                    <option value="wsm">WSM (12h)</option>
+                </select>
+            </div>
+        </div>
+        <button type="submit">Calcular Respawn</button>
+    </form>
+
+    <h2 id="resultado"></h2>
+    <div id="resultado-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

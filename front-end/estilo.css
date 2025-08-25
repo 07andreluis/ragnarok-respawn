@@ -1,0 +1,140 @@
+/* Importa a fonte do Google Fonts, se desejar usar uma fonte diferente */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+/* Estilos globais do corpo da página (background, fonte, cores) */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #1a1a2e; /* Um roxo escuro para o fundo */
+    color: #e0e0e0; /* Cor de texto clara */
+    display: flex;
+    flex-direction: column; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    min-height: 100vh; /* Ocupa a altura total da tela */
+    margin: 0;
+}
+
+/* Container principal para o conteúdo, como o "card" do site */
+.container {
+    background-color: #2e2e50; /* Um roxo um pouco mais claro para o card */
+    padding: 40px;
+    border-radius: 15px; /* Bordas arredondadas */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Sombra para dar profundidade */
+    width: 90%;
+    max-width: 600px; /* Largura máxima para evitar que fique muito grande em telas grandes */
+    text-align: center;
+}
+
+/* Estilo para títulos */
+h1 {
+    color: #8c73ff; /* Cor roxa para o título principal */
+    font-size: 2.25em;
+    margin-bottom: 2px;
+    padding-bottom: 15px;
+}
+
+#detalhe {
+    font-size: 1.5em;
+
+}
+/* Estilo para agrupar os campos de entrada */
+.form-group {
+    display: flex; /* Habilita o Flexbox */
+    gap: 100px; /* Adiciona um espaço entre os itens */
+    justify-content: space-between; /* Distribui o espaço entre os itens */
+    align-items: flex-end; /* Alinha a base dos elementos (inputs e selects) */
+}
+
+/* Estilo para os contêineres individuais */
+.input-container {
+    flex: 1; /* Faz com que cada contêiner ocupe um espaço igual */
+}
+
+/* Estilo para o formulário */
+#respawnForm {
+    gap: 20px; /* Espaço entre os elementos */
+    margin-top: 10px;
+}
+
+/* Estilo para os rótulos (labels) */
+label {
+    font-size: 1.2em;
+    font-weight: bold;
+    display: block; /* Para que cada label fique em sua própria linha */
+    text-align: left;
+    margin-bottom: 2px;
+}
+
+/* Estilo para os campos de entrada de texto e data */
+input[type="datetime-local"], select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #5a5a7b; /* Borda mais escura */
+    border-radius: 8px; /* Bordas arredondadas */
+    background-color: #1a1a2e;
+    color: #e0e0e0;
+    font-size: 1em;
+}
+
+/* Estilo para o botão */
+button {
+    background-color: #8c73ff; /* Cor roxa para o botão */
+    color: white;
+    padding: 15px 18px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.17em;
+    font-weight: bold;
+    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    transition: background-color 0.3s ease; /* Transição suave ao passar o mouse */
+}
+
+/* Estilo ao passar o mouse por cima do botão */
+button:hover {
+    background-color: #a48eff; /* Cor mais clara para o hover */
+}
+
+/* Estilo para o resultado do cálculo */
+#resultado {
+    font-size: 1.5em;
+    margin-top: 1px;
+    font-weight: bold;
+    color: #4CAF50; /* Uma cor verde para destacar o resultado */
+}
+
+/* Estilo para o contêiner dos cards */
+#resultado-container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que os cards quebrem para a próxima linha */
+    justify-content: center; /* Centraliza os cards */
+    gap: 20px; /* Espaço entre os cards */
+    margin-top: 15px;
+}
+
+/* Estilo do card de respawn */
+.respawn-card {
+    background-color: #2e2e50;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    max-width: 250px;
+}
+
+.respawn-card img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain; /* Garante que a imagem não fique distorcida */
+    margin-bottom: 15px;
+}
+
+.respawn-card h3 {
+    color: #fff;
+    font-size: 1.5em;
+    margin: 0 0 10px;
+}
+
+.respawn-card p {
+    color: #4CAF50; /* Cor verde para a data */
+    font-size: 1.2em;
+    font-weight: bold;
+}
