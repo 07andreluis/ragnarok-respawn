@@ -55,9 +55,27 @@ const renderizarCard = (respawn) => {
 
 // Função para buscar os dados do servidor e renderizar os cards
 const carregarRespawns = async () => {
-    const response = await fetch('https://ragnarok-respawn.vercel.app/api/respawns');
-    const respawns = await response.json();
-    respawns.forEach(renderizarCard);
+    try {
+        const response = await fetch('https://ragnarok-respawn.vercel.app/api/respawns');
+
+        // Checa se a resposta foi bem-sucedida (status 200-299)
+        if (!response.ok) {
+            // Se a resposta for um erro, lança uma exceção
+            throw new Error(`Erro do servidor: ${response.status}`);
+        }
+
+        const respawns = await response.json();
+        
+        // Garante que 'respawns' é um array antes de usar forEach
+        if (Array.isArray(respawns)) {
+            respawns.forEach(renderizarCard);
+        } else {
+            console.error("A resposta da API não é um array:", respawns);
+        }
+
+    } catch (error) {
+        console.error("Erro ao carregar os respawns:", error);
+    }
 };
 
 // Evento de envio do formulário
