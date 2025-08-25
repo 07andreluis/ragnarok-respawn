@@ -7,7 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Conecta ao MongoDB
-mongoose.connect('mongodb+srv://andreluis2209:eCpaga1y5GPVJmFM@cluster0.slar0wh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('Conexão com o MongoDB estabelecida com sucesso!'))
     .catch(err => console.error('Erro ao conectar ao MongoDB:', err));
 
