@@ -55,7 +55,7 @@ const renderizarCard = (respawn) => {
 
 // Função para buscar os dados do servidor e renderizar os cards
 const carregarRespawns = async () => {
-    const response = await fetch('http://localhost:3000/api/respawns');
+    const response = await fetch('http://ragnarok-respawn.vercel.app/');
     const respawns = await response.json();
     respawns.forEach(renderizarCard);
 };
@@ -95,7 +95,7 @@ form.addEventListener('submit', async function(event) {
         horarioRespawn: horaMorte
     };
 
-    await fetch('http://localhost:3000/api/respawns', {
+    await fetch('http://https://ragnarok-respawn.vercel.app/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
