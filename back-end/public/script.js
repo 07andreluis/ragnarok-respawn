@@ -1,8 +1,8 @@
 // Mapeamento de monstros para suas imagens
 const imagensMonstros = {
-    ifrit: 'images/ifrit.png',
-    valk: 'images/valk.png',
-    wsm: 'images/wsm.png'
+    ifrit: 'imagens/ifrit.png',
+    valk: 'imagens/valk.png',
+    wsm: 'imagens/wsm.png'
 };
 
 const form = document.getElementById('respawnForm');
