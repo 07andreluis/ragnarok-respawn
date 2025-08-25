@@ -1,8 +1,8 @@
 // Mapeamento de monstros para suas imagens
 const imagensMonstros = {
-    ifrit: 'imagens/ifrit.png',
-    valk: 'imagens/valk.png',
-    wsm: 'imagens/wsm.png'
+    ifrit: 'images/ifrit.png',
+    valk: 'images/valk.png',
+    wsm: 'images/wsm.png'
 };
 
 const form = document.getElementById('respawnForm');
@@ -55,7 +55,7 @@ const renderizarCard = (respawn) => {
 
 // Função para buscar os dados do servidor e renderizar os cards
 const carregarRespawns = async () => {
-    const response = await fetch('http://ragnarok-respawn.vercel.app/');
+    const response = await fetch('https://ragnarok-respawn.vercel.app/api/respawns');
     const respawns = await response.json();
     respawns.forEach(renderizarCard);
 };
@@ -66,7 +66,7 @@ form.addEventListener('submit', async function(event) {
 
     const horaMorteString = horaMorteInput.value;
     const monstroSelecionado = document.getElementById('monstro').value;
-    
+
     if (!horaMorteString) {
         alert("Por favor, insira a hora da morte do monstro.");
         return;
@@ -95,7 +95,7 @@ form.addEventListener('submit', async function(event) {
         horarioRespawn: horaMorte
     };
 
-    await fetch('http://ragnarok-respawn.vercel.app/', {
+    await fetch('https://ragnarok-respawn.vercel.app/api/respawns', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
