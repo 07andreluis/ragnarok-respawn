@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
-const Respawn = require('./models/Respawn'); // Importa o modelo
+const Respawn = require('./models/Respawn');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -15,11 +15,16 @@ mongoose.connect(process.env.MONGODB_URI)
 const cors = require('cors');
 app.use(cors());
 
-// Middleware para servir arquivos estáticos do front-end
-app.use(express.static(path.join(__dirname, '../front-end')));
+// Middleware para servir arquivos estáticos da pasta raiz
+app.use(express.static(path.join(__dirname, '..')));
 
 // Middleware para lidar com dados JSON no corpo das requisições
 app.use(express.json());
+
+// Rota para servir o arquivo HTML principal
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../index.html'));
+});
 
 // --- ROTAS DO BANCO DE DADOS ---
 
