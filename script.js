@@ -95,7 +95,7 @@ form.addEventListener('submit', async function(event) {
         horarioRespawn: horaMorte
     };
 
-    await fetch('http://https://ragnarok-respawn.vercel.app/', {
+    await fetch('http://ragnarok-respawn.vercel.app/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
