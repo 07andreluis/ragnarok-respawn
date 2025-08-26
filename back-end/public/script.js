@@ -26,7 +26,26 @@ const opcoesDeFormato = {
     hour: '2-digit',
     minute: '2-digit'
 };
-// ... (seu código de formatação e cálculo) ...
+// Define o intervalo de 48 horas
+const horasIntervalo = 48;
+
+// Calcula a data e hora atuais
+const dataAtual = new Date();
+
+// Calcula o horário mínimo (agora - 48h)
+const dataMinima = new Date(dataAtual);
+dataMinima.setHours(dataMinima.getHours() - horasIntervalo);
+
+// Calcula o horário máximo (agora + 48h)
+const dataMaxima = new Date(dataAtual);
+dataMaxima.setHours(dataMaxima.getHours() + horasIntervalo);
+
+// Formata as datas e define os atributos min e max
+horaMorteInput.min = formatarData(dataMinima);
+horaMorteInput.max = formatarData(dataMaxima);
+
+// Opcionalmente, define o valor inicial para a data e hora atuais
+horaMorteInput.value = formatarData(dataAtual);
 
 // Função para renderizar um card no HTML
 const renderizarCard = (respawn) => {
