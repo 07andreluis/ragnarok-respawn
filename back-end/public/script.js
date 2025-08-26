@@ -1,3 +1,22 @@
+// Função para atualizar o relógio digital
+function atualizarRelogio() {
+    const agora = new Date();
+    const horas = agora.getHours().toString().padStart(2, '0');
+    const minutos = agora.getMinutes().toString().padStart(2, '0');
+    const segundos = agora.getSeconds().toString().padStart(2, '0');
+
+    const relogioElemento = document.getElementById('relogio-digital');
+    if (relogioElemento) {
+        relogioElemento.textContent = `${horas}:${minutos}:${segundos}`;
+    }
+}
+
+// Atualiza o relógio a cada 1 segundo (1000 milissegundos)
+setInterval(atualizarRelogio, 1000);
+
+// Chama a função uma vez para exibir a hora imediatamente
+atualizarRelogio();
+
 // Mapeamento de monstros para suas imagens
 const imagensMonstros = {
     ifrit: 'images/ifrit.gif',
