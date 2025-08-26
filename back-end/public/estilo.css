@@ -138,3 +138,9 @@ button:hover {
     font-size: 1.2em;
     font-weight: bold;
 }
+
+.respawn-card p.respawn-passado {
+    color: #dd0e0e; /* Cor vermelha para a data */
+    font-size: 1.2em;
+    font-weight: bold;
+}

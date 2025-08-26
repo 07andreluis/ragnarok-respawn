@@ -52,21 +52,40 @@ const renderizarCard = (respawn) => {
     const monstro = respawn.monstro;
     const nomeMonstro = monstro.toUpperCase();
     const imagemMonstro = imagensMonstros[monstro];
-    const respawnFormatado = new Date(respawn.horarioRespawn).toLocaleString(undefined, opcoesDeFormato);
+
+    // Converte o horário de respawn para um objeto Date
+    const horarioRespawn = new Date(respawn.horarioRespawn);
+    const respawnFormatado = horarioRespawn.toLocaleString(undefined, opcoesDeFormato);
+
+    // Compara o horário de respawn com o horário atual
+    const estaNoPrazo = horarioRespawn > new Date();
 
     const cardExistente = document.querySelector(`.respawn-card[data-monstro="${monstro}"]`);
-
+    
     if (cardExistente) {
-        cardExistente.querySelector('p').textContent = `Respawn: ${respawnFormatado}`;
+        // Atualiza o horário
+        const pElement = cardExistente.querySelector('p');
+        pElement.textContent = `Respawn: ${respawnFormatado}`;
+        
+        // Aplica ou remove a classe de estilo
+        if (estaNoPrazo) {
+            pElement.classList.remove('respawn-passado');
+        } else {
+            pElement.classList.add('respawn-passado');
+        }
+        
     } else {
         const novoCard = document.createElement('div');
         novoCard.classList.add('respawn-card');
         novoCard.setAttribute('data-monstro', monstro);
 
+        // Aplica a classe de estilo na criação do card
+        const estiloRespawn = estaNoPrazo ? '' : 'respawn-passado';
+
         novoCard.innerHTML = `
             <img src="${imagemMonstro}" alt="Imagem do monstro ${nomeMonstro}">
             <h3>${nomeMonstro}</h3>
-            <p>Respawn: ${respawnFormatado}</p>
+            <p class="${estiloRespawn}">Respawn: ${respawnFormatado}</p>
         `;
         resultadoContainer.appendChild(novoCard);
     }
