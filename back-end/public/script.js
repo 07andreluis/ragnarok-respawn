@@ -69,7 +69,7 @@ horaMorteInput.value = formatarData(dataAtual);
 // Função para renderizar um card no HTML
 const renderizarCard = (respawn) => {
     const monstro = respawn.monstro;
-    const nomeMonstro = monstro;
+    const nomeMonstro = monstro.charAt(0).toUpperCase() + monstro.slice(1);
     const imagemMonstro = imagensMonstros[monstro];
 
     // Converte o horário de respawn para um objeto Date
