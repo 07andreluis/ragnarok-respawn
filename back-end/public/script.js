@@ -111,7 +111,7 @@ const renderizarCard = (respawn) => {
 
         novoCard.innerHTML = `
             <img src="${imagemMonstro}" alt="Imagem do monstro ${nomeMonstro}">
-            <h3>${nomeMonstro}</h3>
+            <h3>${nomeFormatado}</h3>
             <p class="${estiloRespawn}">Respawn: ${respawnFormatado}</p>
         `;
         resultadoContainer.appendChild(novoCard);
