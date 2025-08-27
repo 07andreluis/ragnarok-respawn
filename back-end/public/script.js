@@ -69,7 +69,7 @@ horaMorteInput.value = formatarData(dataAtual);
 // Função para renderizar um card no HTML
 const renderizarCard = (respawn) => {
     const monstro = respawn.monstro;
-    const nomeMonstro = monstro;
+    const nomeMonstro = monstro.toUpperCase();
     const imagemMonstro = imagensMonstros[monstro];
 
     // Lógica para a formatação do nome
