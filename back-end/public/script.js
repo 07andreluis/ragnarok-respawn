@@ -117,49 +117,28 @@ const renderizarCard = (respawn) => {
     }
 };
 
-// Constante para alerta
-const statusMessage = document.getElementById('status-message');
-
 // Função para buscar os dados do servidor e renderizar os cards
 const carregarRespawns = async () => {
     try {
-        await fetch('https://ragnarok-respawn.vercel.app/api/respawns', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(novoRespawn)
-        });
+        const response = await fetch('https://ragnarok-respawn.vercel.app/api/respawns');
 
-        // Adiciona um delay de 1 segundo antes de exibir o alerta
-        setTimeout(() => {
-            statusMessage.textContent = 'Horário salvo com sucesso!';
-            statusMessage.classList.add('message');
-            statusMessage.style.display = 'block';
+        // Checa se a resposta foi bem-sucedida (status 200-299)
+        if (!response.ok) {
+            // Se a resposta for um erro, lança uma exceção
+            throw new Error(`Erro do servidor: ${response.status}`);
+        }
 
-            // Esconde a mensagem após a animação (3 segundos)
-            setTimeout(() => {
-                statusMessage.style.display = 'none';
-                statusMessage.classList.remove('message');
-            }, 3000);
+        const respawns = await response.json();
 
-        }, 1000); // 1000 milissegundos = 1 segundo de delay
+        // Garante que 'respawns' é um array antes de usar forEach
+        if (Array.isArray(respawns)) {
+            respawns.forEach(renderizarCard);
+        } else {
+            console.error("A resposta da API não é um array:", respawns);
+        }
 
     } catch (error) {
         // Exibe uma mensagem de erro em caso de falha
-        setTimeout(() => {
-            statusMessage.textContent = 'Erro ao salvar o horário.';
-            statusMessage.style.backgroundColor = 'red'; /* Estilo para erro */
-            statusMessage.classList.add('message');
-            statusMessage.style.display = 'block';
-
-            setTimeout(() => {
-                statusMessage.style.display = 'none';
-                statusMessage.classList.remove('message');
-            }, 3000);
-
-        }, 1000);
-        
         console.error("Erro ao enviar dados:", error);
     }
 };
