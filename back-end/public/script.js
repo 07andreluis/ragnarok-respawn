@@ -21,7 +21,8 @@ atualizarRelogio();
 const imagensMonstros = {
     ifrit: 'images/ifrit.gif',
     valk: 'images/valk.gif',
-    wsm: 'images/wsm.gif'
+    wsm: 'images/wsm.gif',
+    corrup: 'images/corrup.gif'
 };
 
 const form = document.getElementById('respawnForm');
@@ -167,6 +168,9 @@ form.addEventListener('submit', async function(event) {
             break;
         case 'wsm':
             tempoRespawnHoras = 12;
+            break;
+        case 'corrup':
+            tempoRespawnHoras = 16;
             break;
     }
 
