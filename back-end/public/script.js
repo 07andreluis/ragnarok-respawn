@@ -22,7 +22,8 @@ const imagensMonstros = {
     ifrit: 'images/ifrit.gif',
     valk: 'images/valk.gif',
     wsm: 'images/wsm.gif',
-    corrup: 'images/corrup.gif'
+    corrupted: 'images/corrup.gif',
+    amdarais: 'images/amda.gif'
 };
 
 const form = document.getElementById('respawnForm');
@@ -169,7 +170,10 @@ form.addEventListener('submit', async function(event) {
         case 'wsm':
             tempoRespawnHoras = 12;
             break;
-        case 'corrup':
+        case 'corrupted':
+            tempoRespawnHoras = 16;
+            break;
+        case 'amdarais':
             tempoRespawnHoras = 16;
             break;
     }
