@@ -112,6 +112,7 @@ button:hover {
 
 /* Estilo do card de respawn */
 .respawn-card {
+    position: relative;
     background-color: #2e2e50;
     border-radius: 15px;
     padding: 20px;
