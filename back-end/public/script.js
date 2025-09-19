@@ -72,6 +72,13 @@ const renderizarCard = (respawn) => {
     const monstro = respawn.monstro;
     const nomeMonstro = monstro.toUpperCase();
     const imagemMonstro = imagensMonstros[monstro];
+    const temposIncerteza = {
+        'ifrit': 10 * 60 * 1000, // 10 minutos
+        'valk': 10 * 60 * 1000,  // 10 minutos
+        'wsm': 60 * 60 * 1000,   // 1 hora
+        'corrupted': 60 * 60 * 1000, // 1 hora
+        'amdarais': 60 * 60 * 1000 // 1 hora
+    };
 
     // Lógica para a formatação do nome
     let nomeFormatado;
@@ -84,9 +91,21 @@ const renderizarCard = (respawn) => {
     // Converte o horário de respawn para um objeto Date
     const horarioRespawn = new Date(respawn.horarioRespawn);
     const respawnFormatado = horarioRespawn.toLocaleString(undefined, opcoesDeFormato);
+    const agora = new Date();
 
-    // Compara o horário de respawn com o horário atual
-    const estaNoPrazo = horarioRespawn > new Date();
+    // Calcula o horário do fim da incerteza
+    const horarioFimIncerteza = new Date(horarioRespawn.getTime() + temposIncerteza[monstro]);
+
+    let estiloRespawn = '';
+    // Verifica os três estados: futuro, incerteza ou passado
+    if (agora < horarioRespawn) {
+        estiloRespawn = 'respawn-futuro'; // Opcional, mas boa prática
+    } else if (agora < horarioFimIncerteza) {
+        estiloRespawn = 'respawn-incerteza';
+    } else {
+        estiloRespawn = 'respawn-passado';
+    }
+
     const cardExistente = document.querySelector(`.respawn-card[data-monstro="${monstro}"]`);
     
     if (cardExistente) {
@@ -94,20 +113,14 @@ const renderizarCard = (respawn) => {
         const pElement = cardExistente.querySelector('p');
         pElement.textContent = `Respawn: ${respawnFormatado}`;
         
-        // Aplica ou remove a classe de estilo
-        if (estaNoPrazo) {
-            pElement.classList.remove('respawn-passado');
-        } else {
-            pElement.classList.add('respawn-passado');
-        }
+        // Remove as classes antigas e adiciona a nova
+        pElement.classList.remove('respawn-futuro', 'respawn-incerteza', 'respawn-passado');
+        pElement.classList.add(estiloRespawn);
         
     } else {
         const novoCard = document.createElement('div');
         novoCard.classList.add('respawn-card');
         novoCard.setAttribute('data-monstro', monstro);
-
-        // Aplica a classe de estilo na criação do card
-        const estiloRespawn = estaNoPrazo ? '' : 'respawn-passado';
 
         novoCard.innerHTML = `
             <button class="delete-btn" data-id="${respawn._id}">&times;</button>

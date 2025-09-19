@@ -134,16 +134,38 @@ button:hover {
     margin: 0 0 10px;
 }
 
+/* Animação de pulsação */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.02);
+        opacity: 0.9;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
 .respawn-card p {
-    color: #4CAF50; /* Cor verde para a data */
     font-size: 1.2em;
     font-weight: bold;
 }
 
+.respawn-card p.respawn-futuro {
+    color: #4CAF50; /* Cor verde para a data */
+}
+
+.respawn-card p.respawn-incerteza {
+    color: #ffd700; /* Um tom de dourado */
+    animation: pulse 1.5s infinite;
+}
+
 .respawn-card p.respawn-passado {
     color: #dd0e0e; /* Cor vermelha para a data */
-    font-size: 1.2em;
-    font-weight: bold;
 }
 
 #relogio-digital {
