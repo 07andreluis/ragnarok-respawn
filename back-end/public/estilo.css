@@ -151,3 +151,15 @@ button:hover {
     color: #ffd700; /* Dourado */
     margin-left: 10px;
 }
+
+.delete-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: transparent;
+    color: red;
+    font-size: 1.5em;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}

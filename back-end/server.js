@@ -50,3 +50,19 @@ app.post('/api/respawns', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
+
+// Rota DELETE para excluir um respawn pelo ID
+app.delete('/api/respawns/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const respawnExcluido = await Respawn.findByIdAndDelete(id);
+
+        if (!respawnExcluido) {
+            return res.status(404).json({ message: 'Respawn não encontrado.' });
+        }
+
+        res.json({ message: 'Respawn excluído com sucesso!' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});

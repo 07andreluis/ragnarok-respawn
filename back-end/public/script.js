@@ -87,7 +87,6 @@ const renderizarCard = (respawn) => {
 
     // Compara o horário de respawn com o horário atual
     const estaNoPrazo = horarioRespawn > new Date();
-
     const cardExistente = document.querySelector(`.respawn-card[data-monstro="${monstro}"]`);
     
     if (cardExistente) {
@@ -111,6 +110,7 @@ const renderizarCard = (respawn) => {
         const estiloRespawn = estaNoPrazo ? '' : 'respawn-passado';
 
         novoCard.innerHTML = `
+            <button class="delete-btn" data-id="${respawn._id}">&times;</button>
             <img src="${imagemMonstro}" alt="Imagem do monstro ${nomeMonstro}">
             <h3>${nomeFormatado}</h3>
             <p class="${estiloRespawn}">Respawn: ${respawnFormatado}</p>
@@ -118,6 +118,38 @@ const renderizarCard = (respawn) => {
         resultadoContainer.appendChild(novoCard);
     }
 };
+
+// Adiciona um listener para a exclusão de cards
+resultadoContainer.addEventListener('click', async (event) => {
+    if (event.target.classList.contains('delete-btn')) {
+        const id = event.target.getAttribute('data-id');
+        
+        try {
+            await fetch(`https://ragnarok-respawn.vercel.app/api/respawns/${id}`, {
+                method: 'DELETE'
+            });
+
+            // Recarrega os cards após a exclusão
+            carregarRespawns();
+
+            // Exibe um alerta visual de sucesso
+            setTimeout(() => {
+                statusMessage.textContent = 'Respawn excluído com sucesso!';
+                statusMessage.style.backgroundColor = 'red';
+                statusMessage.classList.add('message');
+                statusMessage.style.display = 'block';
+
+                setTimeout(() => {
+                    statusMessage.style.display = 'none';
+                    statusMessage.classList.remove('message');
+                }, 3000);
+            }, 100);
+
+        } catch (error) {
+            console.error("Erro ao excluir o respawn:", error);
+        }
+    }
+});
 
 // Função para buscar os dados do servidor e renderizar os cards
 const carregarRespawns = async () => {
