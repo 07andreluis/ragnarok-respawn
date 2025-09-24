@@ -55,14 +55,18 @@ app.listen(PORT, () => {
 app.delete('/api/respawns/:id', async (req, res) => {
     try {
         const { id } = req.params;
+        console.log('Recebido pedido para excluir o respawn com ID:', id);
         const respawnExcluido = await Respawn.findByIdAndDelete(id);
 
         if (!respawnExcluido) {
+            console.log('Documento não encontrado para o ID:', id);
             return res.status(404).json({ message: 'Respawn não encontrado.' });
         }
 
+        console.log('Respawn excluído com sucesso!');
         res.json({ message: 'Respawn excluído com sucesso!' });
     } catch (err) {
+        console.error("Erro ao excluir o respawn:", err);
         res.status(500).json({ message: err.message });
     }
 });
