@@ -135,29 +135,30 @@ const renderizarCard = (respawn) => {
 
 // Adiciona um listener para a exclusão de cards
 resultadoContainer.addEventListener('click', async (event) => {
-    if (event.target.classList.contains('delete-btn')) {
-        const id = event.target.getAttribute('data-id');
+    // Usa closest para encontrar o botão, mesmo se o clique for no ícone da lixeira
+    const deleteBtn = event.target.closest('.delete-btn');
+    
+    if (deleteBtn) {
+        const id = deleteBtn.getAttribute('data-id');
         
         try {
             await fetch(`https://ragnarok-respawn.vercel.app/api/respawns/${id}`, {
                 method: 'DELETE'
             });
 
+            // Exibe um alerta visual de sucesso
+            statusMessage.textContent = 'Respawn excluído com sucesso!';
+            statusMessage.style.backgroundColor = 'red';
+            statusMessage.classList.add('message');
+            statusMessage.style.display = 'block';
+
+            setTimeout(() => {
+                statusMessage.style.display = 'none';
+                statusMessage.classList.remove('message');
+            }, 3000);
+            
             // Recarrega os cards após a exclusão
             carregarRespawns();
-
-            // Exibe um alerta visual de sucesso
-            setTimeout(() => {
-                statusMessage.textContent = 'Respawn excluído com sucesso!';
-                statusMessage.style.backgroundColor = 'red';
-                statusMessage.classList.add('message');
-                statusMessage.style.display = 'block';
-
-                setTimeout(() => {
-                    statusMessage.style.display = 'none';
-                    statusMessage.classList.remove('message');
-                }, 3000);
-            }, 100);
 
         } catch (error) {
             console.error("Erro ao excluir o respawn:", error);
