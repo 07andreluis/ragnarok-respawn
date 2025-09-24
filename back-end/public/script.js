@@ -29,6 +29,7 @@ const imagensMonstros = {
 const form = document.getElementById('respawnForm');
 const resultadoContainer = document.getElementById('resultado-container');
 const horaMorteInput = document.getElementById('horaMorte');
+const statusMessage = document.getElementById('status-message');
 
 // Funções para formatar e calcular a data (mantenha a mesma)
 const formatarData = (data) => {
@@ -123,7 +124,7 @@ const renderizarCard = (respawn) => {
         novoCard.setAttribute('data-monstro', monstro);
 
         novoCard.innerHTML = `
-            <button class="delete-btn" data-id="${respawn._id}">&times;</button>
+            <button class="delete-btn" data-id="${respawn._id}"><i class="fas fa-trash-alt"></i></button>
             <img src="${imagemMonstro}" alt="Imagem do monstro ${nomeMonstro}">
             <h3>${nomeFormatado}</h3>
             <p class="${estiloRespawn}">Respawn: ${respawnFormatado}</p>
