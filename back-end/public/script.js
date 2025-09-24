@@ -148,9 +148,7 @@ resultadoContainer.addEventListener('click', async (event) => {
 
             // Exibe um alerta visual de sucesso
             statusMessage.textContent = 'Respawn excluído com sucesso!';
-            statusMessage.style.backgroundColor = 'red';
             statusMessage.classList.add('message');
-            statusMessage.style.display = 'block';
 
             setTimeout(() => {
                 statusMessage.style.display = 'none';
