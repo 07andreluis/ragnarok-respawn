@@ -168,25 +168,25 @@ resultadoContainer.addEventListener('click', async (event) => {
 const carregarRespawns = async () => {
     try {
         const response = await fetch('https://ragnarok-respawn.vercel.app/api/respawns');
+
+        // Checa se a resposta foi bem-sucedida (status 200-299)
+        if (!response.ok) {
+            // Se a resposta for um erro, lança uma exceção
+            throw new Error(`Erro do servidor: ${response.status}`);
+        }
+
         const respawns = await response.json();
 
-        // 1. Ordena os respawns com base no horário
-        respawns.sort((a, b) => {
-            const timeA = new Date(a.horarioRespawn);
-            const timeB = new Date(b.horarioRespawn);
-            return timeA - timeB;
-        });
-
-        // 2. Limpa o contêiner de cards antes de renderizar
-        resultadoContainer.innerHTML = '';
-        
-        // 3. Renderiza os cards na nova ordem
-        respawns.forEach(respawn => {
-            renderizarCard(respawn);
-        });
+        // Garante que 'respawns' é um array antes de usar forEach
+        if (Array.isArray(respawns)) {
+            respawns.forEach(renderizarCard);
+        } else {
+            console.error("A resposta da API não é um array:", respawns);
+        }
 
     } catch (error) {
-        console.error("Erro ao carregar os respawns:", error);
+        // Exibe uma mensagem de erro em caso de falha
+        console.error("Erro ao enviar dados:", error);
     }
 };
 
