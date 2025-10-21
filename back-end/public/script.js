@@ -23,7 +23,8 @@ const imagensMonstros = {
     valk: 'images/valk.gif',
     wsm: 'images/wsm.gif',
     corrupted: 'images/corrup.gif',
-    amdarais: 'images/amda.gif'
+    amdarais: 'images/amda.gif',
+    thanatos: 'images/thana.gif'
 };
 
 const form = document.getElementById('respawnForm');
@@ -73,14 +74,23 @@ const renderizarCard = (respawn) => {
     const monstro = respawn.monstro;
     const nomeMonstro = monstro.toUpperCase();
     const imagemMonstro = imagensMonstros[monstro];
+    const nomeMapa = mapasMonstros[monstro] || 'Mapa Desconhecido'
     const temposIncerteza = {
         'ifrit': 10 * 60 * 1000, // 10 minutos
         'valk': 10 * 60 * 1000,  // 10 minutos
         'wsm': 60 * 60 * 1000,   // 1 hora
         'corrupted': 60 * 60 * 1000, // 1 hora
-        'amdarais': 60 * 60 * 1000 // 1 hora
+        'amdarais': 60 * 60 * 1000, // 1 hora
+        'thanatos': 0 // sem incerteza
     };
-
+    const mapasMonstros = {
+    'ifrit': 'thor_v03',
+    'valk': 'odin_tem03',
+    'wsm': 'moc_fild22',
+    'corrupted': 'ogh_01',
+    'amdarais': 'ogh_02',
+    'thanatos': 'thana_boss'
+    };
     // Lógica para a formatação do nome
     let nomeFormatado;
     if (monstro === 'wsm') {
@@ -127,6 +137,7 @@ const renderizarCard = (respawn) => {
             <button class="delete-btn" data-id="${respawn._id}"><i class="fas fa-trash-alt"></i></button>
             <img src="${imagemMonstro}" alt="Imagem do monstro ${nomeMonstro}">
             <h3>${nomeFormatado}</h3>
+            <h4>${nomeMapa}</h4>
             <p class="${estiloRespawn}">Respawn: ${respawnFormatado}</p>
         `;
         resultadoContainer.appendChild(novoCard);
@@ -220,6 +231,9 @@ form.addEventListener('submit', async function(event) {
             break;
         case 'amdarais':
             tempoRespawnHoras = 16;
+            break;
+        case 'thanatos':
+            tempoRespawnHoras = 2;
             break;
     }
 

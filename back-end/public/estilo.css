@@ -228,3 +228,10 @@ button:hover {
     width: 100%;
   }
 }
+
+.respawn-card h4 {
+    color: #bbb; /* Um cinza claro para contraste */
+    font-size: 0.9em;
+    margin: 5px 0 10px 0; /* Espaçamento entre o nome e o respawn */
+    text-align: center;
+}
