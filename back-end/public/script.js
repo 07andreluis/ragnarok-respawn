@@ -17,7 +17,7 @@ setInterval(atualizarRelogio, 1000);
 // Chama a função uma vez para exibir a hora imediatamente
 atualizarRelogio();
 
-// Mapeamento de monstros para suas imagens
+// Mapeamento de monstros para suas imagens e mapas
 const imagensMonstros = {
     ifrit: 'images/ifrit.gif',
     valk: 'images/valk.gif',
@@ -25,6 +25,14 @@ const imagensMonstros = {
     corrupted: 'images/corrup.gif',
     amdarais: 'images/amda.gif',
     thanatos: 'images/thana.gif'
+};
+const mapasMonstros = {
+    'ifrit': 'thor_v03',
+    'valk': 'odin_tem03',
+    'wsm': 'moc_fild22',
+    'corrupted': 'ogh_01',
+    'amdarais': 'ogh_02',
+    'thanatos': 'thana_boss'
 };
 
 const form = document.getElementById('respawnForm');
@@ -83,14 +91,7 @@ const renderizarCard = (respawn) => {
         'amdarais': 60 * 60 * 1000, // 1 hora
         'thanatos': 0 // sem incerteza
     };
-    const mapasMonstros = {
-    'ifrit': 'thor_v03',
-    'valk': 'odin_tem03',
-    'wsm': 'moc_fild22',
-    'corrupted': 'ogh_01',
-    'amdarais': 'ogh_02',
-    'thanatos': 'thana_boss'
-    };
+
     // Lógica para a formatação do nome
     let nomeFormatado;
     if (monstro === 'wsm') {
