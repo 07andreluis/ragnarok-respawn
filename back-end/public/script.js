@@ -24,7 +24,14 @@ const imagensMonstros = {
     wsm: 'images/wsm.gif',
     corrupted: 'images/corrup.gif',
     amdarais: 'images/amda.gif',
-    thanatos: 'images/thana.gif'
+    thanatos: 'images/thana.gif',
+    angeling1: 'images/angeling.gif',
+    angeling2: 'images/angeling.gif',
+    angeling3: 'images/angeling.gif',
+    deviling1: 'images/deviling.gif',
+    deviling2: 'images/deviling.gif',
+    ghostring1: 'images/ghostring.gif',
+    ghostring2: 'images/ghostring.gif'
 };
 const mapasMonstros = {
     'ifrit': 'thor_v03',
@@ -32,7 +39,14 @@ const mapasMonstros = {
     'wsm': 'moc_fild22',
     'corrupted': 'ogh_01',
     'amdarais': 'ogh_02',
-    'thanatos': 'thana_boss'
+    'thanatos': 'thana_boss',
+    'angeling1': 'pay_fild04',
+    'angeling2': 'yuno_fild03',
+    'angeling3': 'xmas_dun01',
+    'deviling1': 'pay_fild04',
+    'deviling2': 'yuno_fild03',
+    'ghostring1': 'pay_fild04',
+    'ghostring2': 'prt_maze03'
 };
 
 const form = document.getElementById('respawnForm');
@@ -89,7 +103,14 @@ const renderizarCard = (respawn) => {
         'wsm': 60 * 60 * 1000,   // 1 hora
         'corrupted': 60 * 60 * 1000, // 1 hora
         'amdarais': 60 * 60 * 1000, // 1 hora
-        'thanatos': 0 // sem incerteza
+        'thanatos': 0, // sem incerteza
+        'angeling1': 30 * 60 * 1000, // 30 minutos
+        'angeling2': 30 * 60 * 1000, // 30 minutos
+        'angeling3': 30 * 60 * 1000, // 30 minutos
+        'deviling1': 60 * 60 * 1000, // 60 minutos
+        'deviling2': 30 * 60 * 1000, // 30 minutos
+        'ghostring1': 30 * 60 * 1000, // 30 minutos
+        'ghostring2': 57 * 60 * 1000 // 57 minutos
     };
 
     // Lógica para a formatação do nome
@@ -236,6 +257,26 @@ form.addEventListener('submit', async function(event) {
         case 'thanatos':
             tempoRespawnHoras = 2;
             break;
+        case 'angeling1':
+            tempoRespawnHoras = 1;
+            break;
+        case 'angeling2':
+            tempoRespawnHoras = 1;
+            break;
+        case 'angeling3':
+            tempoRespawnHoras = 1;
+            break;
+        case 'deviling1':
+            tempoRespawnHoras = 2;
+            break;
+        case 'deviling2':
+            tempoRespawnHoras = 1;
+            break;
+        case 'ghostring1':
+            tempoRespawnHoras = 1;
+            break;
+        case 'ghostring2':
+            tempoRespawnHoras = 1.95;
     }
 
     horaMorte.setHours(horaMorte.getHours() + tempoRespawnHoras);
