@@ -31,7 +31,8 @@ const imagensMonstros = {
     deviling1: 'images/deviling.gif',
     deviling2: 'images/deviling.gif',
     ghostring1: 'images/ghostring.gif',
-    ghostring2: 'images/ghostring.gif'
+    ghostring2: 'images/ghostring.gif',
+    ghostring3: 'images/ghostring.gif'
 };
 const mapasMonstros = {
     'ifrit': 'thor_v03',
@@ -46,7 +47,8 @@ const mapasMonstros = {
     'deviling1': 'pay_fild04',
     'deviling2': 'yuno_fild03',
     'ghostring1': 'pay_fild04',
-    'ghostring2': 'prt_maze03'
+    'ghostring2': 'prt_maze03',
+    'ghostring3': 'treasure02'
 };
 
 const form = document.getElementById('respawnForm');
@@ -110,7 +112,8 @@ const renderizarCard = (respawn) => {
         'deviling1': 60 * 60 * 1000, // 60 minutos
         'deviling2': 30 * 60 * 1000, // 30 minutos
         'ghostring1': 30 * 60 * 1000, // 30 minutos
-        'ghostring2': 57 * 60 * 1000 // 57 minutos
+        'ghostring2': 57 * 60 * 1000, // 57 minutos
+        'ghostring3': 20 * 60 * 1000 // 20 minutos
     };
 
     // Lógica para a formatação do nome
@@ -277,6 +280,10 @@ form.addEventListener('submit', async function(event) {
             break;
         case 'ghostring2':
             tempoRespawnHoras = 1.95;
+            break;
+        case 'ghostring3':
+            tempoRespawnHoras = 0.55;
+            break;
     }
 
     horaMorte.setHours(horaMorte.getHours() + tempoRespawnHoras);
