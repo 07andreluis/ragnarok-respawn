@@ -188,6 +188,7 @@ button:hover {
 }
 
 .message {
+  z-index: 9999;
   padding: 14px 50px;
   position: fixed;
   top: 20px;

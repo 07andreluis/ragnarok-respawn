@@ -38,8 +38,8 @@ const mapasMonstros = {
     'ifrit': 'thor_v03',
     'valk': 'odin_tem03',
     'wsm': 'moc_fild22',
-    'corrupted': 'ogh_01',
-    'amdarais': 'ogh_02',
+    'corrupted': 'old_gh01',
+    'amdarais': 'old_gh02',
     'thanatos': 'thana_boss',
     'angeling1': 'pay_fild04',
     'angeling2': 'yuno_fild03',
@@ -310,3 +310,5 @@ form.addEventListener('submit', async function(event) {
 
 // Carrega os cards ao iniciar a página
 carregarRespawns();
+
+setInterval(carregarRespawns, 30000); // Recarrega a cada 30 segundos
