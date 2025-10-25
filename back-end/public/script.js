@@ -25,6 +25,9 @@ const imagensMonstros = {
     corrupted: 'images/corrup.gif',
     amdarais: 'images/amda.gif',
     thanatos: 'images/thana.gif',
+    valkzinha1: 'images/valk.gif',
+    valkzinha2: 'images/valk.gif',
+    valkzinha3: 'images/valk.gif',
     angeling1: 'images/angeling.gif',
     angeling2: 'images/angeling.gif',
     angeling3: 'images/angeling.gif',
@@ -41,6 +44,9 @@ const mapasMonstros = {
     'corrupted': 'old_gh01',
     'amdarais': 'old_gh02',
     'thanatos': 'thana_boss',
+    'valkzinha1': 'odin_tem02',
+    'valkzinha2': 'odin_tem03',
+    'valkzinha3': 'odin_tem03',
     'angeling1': 'pay_fild04',
     'angeling2': 'yuno_fild03',
     'angeling3': 'xmas_dun01',
@@ -106,6 +112,9 @@ const renderizarCard = (respawn) => {
         'corrupted': 60 * 60 * 1000, // 1 hora
         'amdarais': 60 * 60 * 1000, // 1 hora
         'thanatos': 0, // sem incerteza
+        'valkzinha1': 30 * 60 * 1000, // 30 minutos
+        'valkzinha2': 20 * 60 * 1000, // 20 minutos
+        'valkzinha3': 20 * 60 * 1000, // 20 minutos
         'angeling1': 30 * 60 * 1000, // 30 minutos
         'angeling2': 30 * 60 * 1000, // 30 minutos
         'angeling3': 30 * 60 * 1000, // 30 minutos
@@ -260,6 +269,15 @@ form.addEventListener('submit', async function(event) {
         case 'thanatos':
             tempoRespawnHoras = 2;
             break;
+        case 'valkzinha1':
+            tempoRespawnHoras = 1.5;
+            break;
+        case 'valkzinha2':
+            tempoRespawnHoras = 0.5;
+            break;
+        case 'valkzinha3':
+            tempoRespawnHoras = 0.5;
+            break;
         case 'angeling1':
             tempoRespawnHoras = 1;
             break;
@@ -311,4 +329,4 @@ form.addEventListener('submit', async function(event) {
 // Carrega os cards ao iniciar a página
 carregarRespawns();
 
-setInterval(carregarRespawns, 30000); // Recarrega a cada 30 segundos
+setInterval(carregarRespawns, 15000); // Recarrega a cada 15 segundos
