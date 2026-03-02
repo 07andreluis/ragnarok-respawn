@@ -157,6 +157,7 @@ button:hover {
 
 .respawn-card p.respawn-futuro {
     color: #4CAF50; /* Cor verde para a data */
+    animation: pulse 1.5s infinite;
 }
 
 .respawn-card p.respawn-incerteza {

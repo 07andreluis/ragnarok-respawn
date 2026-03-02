@@ -329,4 +329,4 @@ form.addEventListener('submit', async function(event) {
 // Carrega os cards ao iniciar a página
 carregarRespawns();
 
-setInterval(carregarRespawns, 15000); // Recarrega a cada 15 segundos
+setInterval(carregarRespawns, 10000); // Recarrega a cada 10 segundos
