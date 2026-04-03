@@ -184,12 +184,28 @@ resultadoContainer.addEventListener('click', async (event) => {
     const deleteBtn = event.target.closest('.delete-btn');
     
     if (deleteBtn) {
+        // Confirmação simples de exclusão
+        if (!confirm("Tem certeza que deseja deletar este MV/Card?")) {
+            return;
+        }
+
         const id = deleteBtn.getAttribute('data-id');
+        const card = deleteBtn.closest('.respawn-card');
         
         try {
-            await fetch(`https://ragnarok-respawn.vercel.app/api/respawns/${id}`, {
+            await fetch(`/api/respawns/${id}`, {
                 method: 'DELETE'
             });
+
+            // Animação de Fade-out
+            card.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.9)';
+
+            // Remove o card da DOM após a animação antes mesmo de recarregar a lista
+            setTimeout(() => {
+                if (card.parentNode) card.remove();
+            }, 500);
 
             // Exibe um alerta visual de sucesso
             statusMessage.textContent = 'Respawn excluído com sucesso!';
@@ -200,11 +216,12 @@ resultadoContainer.addEventListener('click', async (event) => {
                 statusMessage.classList.remove('message');
             }, 3000);
             
-            // Recarrega os cards após a exclusão
-            carregarRespawns();
+            // Recarrega os cards após a exclusão (já deve vir limpo)
+            setTimeout(carregarRespawns, 500); 
 
         } catch (error) {
             console.error("Erro ao excluir o respawn:", error);
+            alert("Erro ao excluir. Tente novamente.");
         }
     }
 });
@@ -212,7 +229,7 @@ resultadoContainer.addEventListener('click', async (event) => {
 // Função para buscar os dados do servidor e renderizar os cards
 const carregarRespawns = async () => {
     try {
-        const response = await fetch('https://ragnarok-respawn.vercel.app/api/respawns');
+        const response = await fetch('/api/respawns');
 
         // Checa se a resposta foi bem-sucedida (status 200-299)
         if (!response.ok) {
@@ -224,6 +241,8 @@ const carregarRespawns = async () => {
 
         // Garante que 'respawns' é um array antes de usar forEach
         if (Array.isArray(respawns)) {
+            // Limpa o container para evitar cards duplicados ou IDs antigos "presos"
+            resultadoContainer.innerHTML = '';
             respawns.forEach(renderizarCard);
         } else {
             console.error("A resposta da API não é um array:", respawns);
@@ -231,7 +250,7 @@ const carregarRespawns = async () => {
 
     } catch (error) {
         // Exibe uma mensagem de erro em caso de falha
-        console.error("Erro ao enviar dados:", error);
+        console.error("Erro ao buscar dados:", error);
     }
 };
 
@@ -312,7 +331,7 @@ form.addEventListener('submit', async function(event) {
         horarioRespawn: horaMorte
     };
 
-    await fetch('https://ragnarok-respawn.vercel.app/api/respawns', {
+    await fetch('/api/respawns', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
