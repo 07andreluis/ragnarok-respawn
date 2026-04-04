@@ -1,0 +1,24 @@
+# Dependências
+node_modules/
+package-lock.json
+
+# Variáveis de Ambiente e Segredos
+.env
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Sistema (Windows/Mac)
+.DS_Store
+Thumbs.db
+
+# Pasta do Assistente (Antigravity)
+.agent/
+.gemini/
+
+# Build/Dist
+dist/
+build/

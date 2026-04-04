@@ -39,8 +39,15 @@ app.get('/api/respawns', async (req, res) => {
 
 app.post('/api/respawns', async (req, res) => {
     try {
-        const novoRespawn = await Respawn.create(req.body);
-        res.status(201).json(novoRespawn);
+        const { monstro, horarioRespawn } = req.body;
+        // Se já existir um monstro com esse nome, apenas atualiza o tempo dele.
+        // Se não existir, cria um novo (upsert: true).
+        const respawn = await Respawn.findOneAndUpdate(
+            { monstro },
+            { horarioRespawn },
+            { upsert: true, new: true, runValidators: true }
+        );
+        res.status(201).json(respawn);
     } catch (err) {
         res.status(400).json({ message: err.message });
     }

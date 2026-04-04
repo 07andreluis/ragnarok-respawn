@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const respawnSchema = new mongoose.Schema({
     monstro: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     horarioRespawn: {
         type: Date,

@@ -154,14 +154,19 @@ const renderizarCard = (respawn) => {
     const cardExistente = document.querySelector(`.respawn-card[data-monstro="${monstro}"]`);
     
     if (cardExistente) {
+        // Atualiza o ID do botão de exclusão
+        const deleteBtn = cardExistente.querySelector('.delete-btn');
+        if (deleteBtn) {
+            deleteBtn.setAttribute('data-id', respawn._id);
+        }
+        
         // Atualiza o horário
         const pElement = cardExistente.querySelector('p');
         pElement.textContent = `Respawn: ${respawnFormatado}`;
-        
+
         // Remove as classes antigas e adiciona a nova
         pElement.classList.remove('respawn-futuro', 'respawn-incerteza', 'respawn-passado');
         pElement.classList.add(estiloRespawn);
-        
     } else {
         const novoCard = document.createElement('div');
         novoCard.classList.add('respawn-card');
@@ -185,7 +190,7 @@ resultadoContainer.addEventListener('click', async (event) => {
     
     if (deleteBtn) {
         // Confirmação simples de exclusão
-        if (!confirm("Tem certeza que deseja deletar este MV/Card?")) {
+        if (!confirm("Tem certeza que deseja deletar este time de MVP?")) {
             return;
         }
 
