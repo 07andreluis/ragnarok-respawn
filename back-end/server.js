@@ -58,7 +58,30 @@ app.listen(PORT, () => {
     console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
 
-// Rota DELETE para excluir um respawn pelo ID
+// Rota PATCH para atualizar as coordenadas do túmulo do MVP
+app.patch('/api/respawns/:id/tumba', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { tumbaX, tumbaY } = req.body;
+        
+        const respawn = await Respawn.findByIdAndUpdate(
+            id,
+            { tumbaX, tumbaY },
+            { new: true }
+        );
+
+        if (!respawn) {
+            return res.status(404).json({ message: 'Respawn não encontrado para atualizar túmulo.' });
+        }
+
+        res.json(respawn);
+    } catch (err) {
+        console.error("Erro ao atualizar o túmulo do respawn:", err);
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// A Rota DELETE continua aqui
 app.delete('/api/respawns/:id', async (req, res) => {
     try {
         const { id } = req.params;

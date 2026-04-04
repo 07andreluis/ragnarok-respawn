@@ -237,3 +237,45 @@ button:hover {
     margin: 5px 0 10px 0; /* Espaçamento entre o nome e o respawn */
     text-align: center;
 }
+
+/* Container que envovle o mapa para manter as coordenadas relativas (%) */
+.mapa-container {
+    position: relative;
+    display: inline-block;
+    cursor: crosshair;
+    margin-top: 10px;
+}
+
+.map-img {
+    width: 200px; /* Tamanho fixo do mapa no card */
+    max-width: 100%;
+    border-radius: 5px;
+    border: 1px solid #444;
+}
+
+/* O marcador realístico da tumba usando translate(-50%, -100%) para q a base seja o pto do clique */
+.tumulo-marker {
+    position: absolute;
+    width: 20px;
+    height: 25px;
+    transform: translate(-50%, -100%);
+    pointer-events: none; /* Para não bugar outros cliques */
+    z-index: 10;
+}
+
+/* Botão de limpar a marcação da tumba, discreto visivel */
+.clear-tumba-btn {
+    display: block;
+    margin: 5px auto;
+    font-size: 0.8em;
+    color: #ffd700;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.clear-tumba-btn:hover {
+    color: #fff;
+    background: none;
+}

@@ -37,6 +37,7 @@ const imagensMonstros = {
     ghostring2: 'images/ghostring.gif',
     ghostring3: 'images/ghostring.gif'
 };
+
 const mapasMonstros = {
     'ifrit': 'thor_v03',
     'valk': 'odin_tem03',
@@ -55,6 +56,48 @@ const mapasMonstros = {
     'ghostring1': 'pay_fild04',
     'ghostring2': 'prt_maze03',
     'ghostring3': 'treasure02'
+};
+
+// Tempos de incerteza em milissegundos movido para o escopo global por ganho de performance
+const temposIncerteza = {
+    'ifrit': 10 * 60 * 1000, 
+    'valk': 10 * 60 * 1000,
+    'wsm': 60 * 60 * 1000,   
+    'corrupted': 60 * 60 * 1000, 
+    'amdarais': 60 * 60 * 1000, 
+    'thanatos': 0, 
+    'valkzinha1': 30 * 60 * 1000,
+    'valkzinha2': 20 * 60 * 1000, 
+    'valkzinha3': 20 * 60 * 1000, 
+    'angeling1': 30 * 60 * 1000, 
+    'angeling2': 30 * 60 * 1000, 
+    'angeling3': 30 * 60 * 1000, 
+    'deviling1': 60 * 60 * 1000, 
+    'deviling2': 30 * 60 * 1000, 
+    'ghostring1': 30 * 60 * 1000, 
+    'ghostring2': 57 * 60 * 1000, 
+    'ghostring3': 20 * 60 * 1000 
+};
+
+// Dicionário Limpo Substituto do Switch/Case
+const temposIniciaisRespawn = {
+    'ifrit': 11,
+    'valk': 8,
+    'wsm': 12,
+    'corrupted': 16,
+    'amdarais': 16,
+    'thanatos': 2,
+    'valkzinha1': 1.5,
+    'valkzinha2': 0.5,
+    'valkzinha3': 0.5,
+    'angeling1': 1,
+    'angeling2': 1,
+    'angeling3': 1,
+    'deviling1': 2,
+    'deviling2': 1,
+    'ghostring1': 1,
+    'ghostring2': 1.95,
+    'ghostring3': 0.55
 };
 
 const form = document.getElementById('respawnForm');
@@ -104,26 +147,10 @@ const renderizarCard = (respawn) => {
     const monstro = respawn.monstro;
     const nomeMonstro = monstro.toUpperCase();
     const imagemMonstro = imagensMonstros[monstro];
-    const nomeMapa = mapasMonstros[monstro] || 'Mapa Desconhecido'
-    const temposIncerteza = {
-        'ifrit': 10 * 60 * 1000, // 10 minutos
-        'valk': 10 * 60 * 1000,  // 10 minutos
-        'wsm': 60 * 60 * 1000,   // 1 hora
-        'corrupted': 60 * 60 * 1000, // 1 hora
-        'amdarais': 60 * 60 * 1000, // 1 hora
-        'thanatos': 0, // sem incerteza
-        'valkzinha1': 30 * 60 * 1000, // 30 minutos
-        'valkzinha2': 20 * 60 * 1000, // 20 minutos
-        'valkzinha3': 20 * 60 * 1000, // 20 minutos
-        'angeling1': 30 * 60 * 1000, // 30 minutos
-        'angeling2': 30 * 60 * 1000, // 30 minutos
-        'angeling3': 30 * 60 * 1000, // 30 minutos
-        'deviling1': 60 * 60 * 1000, // 60 minutos
-        'deviling2': 30 * 60 * 1000, // 30 minutos
-        'ghostring1': 30 * 60 * 1000, // 30 minutos
-        'ghostring2': 57 * 60 * 1000, // 57 minutos
-        'ghostring3': 20 * 60 * 1000 // 20 minutos
-    };
+    const nomeMapa = mapasMonstros[monstro] || 'Mapa Desconhecido';
+    
+    // Imagem do mapa vinda do RateMyServer ou DivinePride
+    const urlMapaImg = `https://www.divine-pride.net/img/map/original/${nomeMapa}`;
 
     // Lógica para a formatação do nome
     let nomeFormatado;
@@ -144,7 +171,7 @@ const renderizarCard = (respawn) => {
     let estiloRespawn = '';
     // Verifica os três estados: futuro, incerteza ou passado
     if (agora < horarioRespawn) {
-        estiloRespawn = 'respawn-futuro'; // Opcional, mas boa prática
+        estiloRespawn = 'respawn-futuro'; 
     } else if (agora < horarioFimIncerteza) {
         estiloRespawn = 'respawn-incerteza';
     } else {
@@ -160,68 +187,100 @@ const renderizarCard = (respawn) => {
             deleteBtn.setAttribute('data-id', respawn._id);
         }
         
-        // Atualiza o horário
+        // Atualiza o mapa ID se a div existir
+        const mapImg = cardExistente.querySelector('.map-img');
+        if (mapImg) {
+            mapImg.setAttribute('data-id', respawn._id);
+        }
+
+        // Atualiza a lógica da Tumba DOM (apaga as antigas e adiciona nova)
+        const mapaContainer = cardExistente.querySelector('.mapa-container');
+        if (mapaContainer) {
+            const marcadorAntigo = mapaContainer.querySelector('.tumulo-marker');
+            if (marcadorAntigo) marcadorAntigo.remove();
+            const btnLimparAntigo = cardExistente.querySelector('.clear-tumba-btn');
+            if (btnLimparAntigo) btnLimparAntigo.remove();
+
+            if (respawn.tumbaX != null && respawn.tumbaY != null) {
+                const newMarker = document.createElement('img');
+                newMarker.src = "https://file5.ratemyserver.net/items/small/708.gif"; // ID 708
+                newMarker.classList.add('tumulo-marker');
+                newMarker.style.left = `${respawn.tumbaX}%`;
+                newMarker.style.top = `${respawn.tumbaY}%`;
+                mapaContainer.appendChild(newMarker);
+                
+                const btnLimpar = document.createElement('button');
+                btnLimpar.classList.add('clear-tumba-btn');
+                btnLimpar.setAttribute('data-id', respawn._id);
+                btnLimpar.textContent = "Limpar Marcação";
+                mapaContainer.after(btnLimpar);
+            }
+        }
+
+        // Atualiza o horário e as classes
         const pElement = cardExistente.querySelector('p');
         pElement.textContent = `Respawn: ${respawnFormatado}`;
-
-        // Remove as classes antigas e adiciona a nova
         pElement.classList.remove('respawn-futuro', 'respawn-incerteza', 'respawn-passado');
         pElement.classList.add(estiloRespawn);
+
     } else {
         const novoCard = document.createElement('div');
         novoCard.classList.add('respawn-card');
         novoCard.setAttribute('data-monstro', monstro);
+
+        // Renderização para criação inicial do HTML do card
+        let htmlTumba = '';
+        let htmlBtnLimpar = '';
+        if (respawn.tumbaX != null && respawn.tumbaY != null) {
+            htmlTumba = `<img src="https://file5.ratemyserver.net/items/small/708.gif" class="tumulo-marker" style="left: ${respawn.tumbaX}%; top: ${respawn.tumbaY}%;">`;
+            htmlBtnLimpar = `<button class="clear-tumba-btn" data-id="${respawn._id}">Limpar Marcação</button>`;
+        }
 
         novoCard.innerHTML = `
             <button class="delete-btn" data-id="${respawn._id}"><i class="fas fa-trash-alt"></i></button>
             <img src="${imagemMonstro}" alt="Imagem do monstro ${nomeMonstro}">
             <h3>${nomeFormatado}</h3>
             <h4>${nomeMapa}</h4>
+            
+            <div class="mapa-container">
+                <img src="${urlMapaImg}" class="map-img" alt="Mapa de Respawn" data-id="${respawn._id}" title="Clique para marcar o túmulo">
+                ${htmlTumba}
+            </div>
+            ${htmlBtnLimpar}
+
             <p class="${estiloRespawn}">Respawn: ${respawnFormatado}</p>
         `;
         resultadoContainer.appendChild(novoCard);
     }
 };
 
-// Adiciona um listener para a exclusão de cards
+// Delegação de Eventos (Delete e Marcação de Tumba)
 resultadoContainer.addEventListener('click', async (event) => {
-    // Usa closest para encontrar o botão, mesmo se o clique for no ícone da lixeira
-    const deleteBtn = event.target.closest('.delete-btn');
     
+    // 1. Exclusão do Card
+    const deleteBtn = event.target.closest('.delete-btn');
     if (deleteBtn) {
-        // Confirmação simples de exclusão
-        if (!confirm("Tem certeza que deseja deletar este time de MVP?")) {
-            return;
-        }
+        if (!confirm("Tem certeza que deseja deletar este time de MVP?")) return;
 
         const id = deleteBtn.getAttribute('data-id');
         const card = deleteBtn.closest('.respawn-card');
         
         try {
-            await fetch(`/api/respawns/${id}`, {
-                method: 'DELETE'
-            });
+            await fetch(`/api/respawns/${id}`, { method: 'DELETE' });
 
-            // Animação de Fade-out
             card.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
             card.style.opacity = '0';
             card.style.transform = 'scale(0.9)';
 
-            // Remove o card da DOM após a animação antes mesmo de recarregar a lista
-            setTimeout(() => {
-                if (card.parentNode) card.remove();
-            }, 500);
+            setTimeout(() => { if (card.parentNode) card.remove(); }, 500);
 
-            // Exibe um alerta visual de sucesso
             statusMessage.textContent = 'Respawn excluído com sucesso!';
             statusMessage.classList.add('message');
-
             setTimeout(() => {
                 statusMessage.style.display = 'none';
                 statusMessage.classList.remove('message');
             }, 3000);
             
-            // Recarrega os cards após a exclusão (já deve vir limpo)
             setTimeout(carregarRespawns, 500); 
 
         } catch (error) {
@@ -229,32 +288,80 @@ resultadoContainer.addEventListener('click', async (event) => {
             alert("Erro ao excluir. Tente novamente.");
         }
     }
+
+    // 2. Clique no Mapa para marcar Tumba ("Patch")
+    const mapImg = event.target.closest('.map-img');
+    if (mapImg) {
+        const id = mapImg.getAttribute('data-id');
+        const rect = mapImg.getBoundingClientRect();
+        
+        const xPercent = ((event.clientX - rect.left) / rect.width) * 100;
+        const yPercent = ((event.clientY - rect.top) / rect.height) * 100;
+
+        try {
+            await fetch(`/api/respawns/${id}/tumba`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ tumbaX: xPercent, tumbaY: yPercent })
+            });
+
+            // Feedback visual rápido
+            mapImg.style.filter = "brightness(1.5)";
+            setTimeout(() => { mapImg.style.filter = "none"; }, 300);
+
+            carregarRespawns(); // Aciona atualização local
+        } catch (error) {
+            console.error("Erro ao registrar túmulo:", error);
+        }
+    }
+
+    // 3. Clique em Limpar Marcação
+    const clearBtn = event.target.closest('.clear-tumba-btn');
+    if (clearBtn) {
+        const id = clearBtn.getAttribute('data-id');
+        try {
+            await fetch(`/api/respawns/${id}/tumba`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ tumbaX: null, tumbaY: null }) // Anula as Coordenadas
+            });
+            carregarRespawns(); 
+        } catch (error) {
+            console.error("Erro ao limpar túmulo:", error);
+        }
+    }
 });
 
-// Função para buscar os dados do servidor e renderizar os cards
+// Função para buscar os dados do servidor e renderizar os cards "Virtual DOM" Mode
 const carregarRespawns = async () => {
     try {
         const response = await fetch('/api/respawns');
-
-        // Checa se a resposta foi bem-sucedida (status 200-299)
-        if (!response.ok) {
-            // Se a resposta for um erro, lança uma exceção
-            throw new Error(`Erro do servidor: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`Erro do servidor: ${response.status}`);
 
         const respawns = await response.json();
 
-        // Garante que 'respawns' é um array antes de usar forEach
         if (Array.isArray(respawns)) {
-            // Limpa o container para evitar cards duplicados ou IDs antigos "presos"
-            resultadoContainer.innerHTML = '';
+            // "Limpeza inteligente": Apenas remove cards que foram excuídos por OUTROS clientes
+            const idsAtuaisBanco = respawns.map(r => r._id);
+            const cardsNaTela = document.querySelectorAll('.respawn-card');
+
+            cardsNaTela.forEach(card => {
+                const btn = card.querySelector('.delete-btn');
+                if (btn) {
+                    const localId = btn.getAttribute('data-id');
+                    if (!idsAtuaisBanco.includes(localId)) {
+                        card.remove();
+                    }
+                }
+            });
+
+            // Adiciona/Atualiza o resto sem resetar a tela brutalmente
             respawns.forEach(renderizarCard);
         } else {
             console.error("A resposta da API não é um array:", respawns);
         }
 
     } catch (error) {
-        // Exibe uma mensagem de erro em caso de falha
         console.error("Erro ao buscar dados:", error);
     }
 };
@@ -272,65 +379,10 @@ form.addEventListener('submit', async function(event) {
     }
 
     const horaMorte = new Date(horaMorteString);
-    let tempoRespawnHoras;
-
-    switch (monstroSelecionado) {
-        case 'ifrit':
-            tempoRespawnHoras = 11;
-            break;
-        case 'valk':
-            tempoRespawnHoras = 8;
-            break;
-        case 'wsm':
-            tempoRespawnHoras = 12;
-            break;
-        case 'corrupted':
-            tempoRespawnHoras = 16;
-            break;
-        case 'amdarais':
-            tempoRespawnHoras = 16;
-            break;
-        case 'thanatos':
-            tempoRespawnHoras = 2;
-            break;
-        case 'valkzinha1':
-            tempoRespawnHoras = 1.5;
-            break;
-        case 'valkzinha2':
-            tempoRespawnHoras = 0.5;
-            break;
-        case 'valkzinha3':
-            tempoRespawnHoras = 0.5;
-            break;
-        case 'angeling1':
-            tempoRespawnHoras = 1;
-            break;
-        case 'angeling2':
-            tempoRespawnHoras = 1;
-            break;
-        case 'angeling3':
-            tempoRespawnHoras = 1;
-            break;
-        case 'deviling1':
-            tempoRespawnHoras = 2;
-            break;
-        case 'deviling2':
-            tempoRespawnHoras = 1;
-            break;
-        case 'ghostring1':
-            tempoRespawnHoras = 1;
-            break;
-        case 'ghostring2':
-            tempoRespawnHoras = 1.95;
-            break;
-        case 'ghostring3':
-            tempoRespawnHoras = 0.55;
-            break;
-    }
+    const tempoRespawnHoras = temposIniciaisRespawn[monstroSelecionado] || 1;
 
     horaMorte.setHours(horaMorte.getHours() + tempoRespawnHoras);
 
-    // Envia o novo respawn para o servidor
     const novoRespawn = {
         monstro: monstroSelecionado,
         horarioRespawn: horaMorte
@@ -338,15 +390,11 @@ form.addEventListener('submit', async function(event) {
 
     await fetch('/api/respawns', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(novoRespawn)
     });
 
-    // Recarrega os cards na tela para refletir a mudança
     carregarRespawns();
-
     horaMorteInput.value = '';
 });
 

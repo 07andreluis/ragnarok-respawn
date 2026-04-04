@@ -10,6 +10,14 @@ const respawnSchema = new mongoose.Schema({
     horarioRespawn: {
         type: Date,
         required: true
+    },
+    tumbaX: {
+        type: Number,
+        default: null
+    },
+    tumbaY: {
+        type: Number,
+        default: null
     }
 });
 
