@@ -101,13 +101,14 @@ button:hover {
     color: #4CAF50; /* Uma cor verde para destacar o resultado */
 }
 
-/* Estilo para o contêiner dos cards */
-#resultado-container {
+/* Estilo para os contêineres grid (MVPs e Miniboss) */
+.resultado-grid {
     display: flex;
     flex-wrap: wrap; /* Permite que os cards quebrem para a próxima linha */
     justify-content: center; /* Centraliza os cards */
     gap: 20px; /* Espaço entre os cards */
     margin-top: 15px;
+    margin-bottom: 30px;
 }
 
 /* Estilo do card de respawn */
@@ -247,7 +248,7 @@ button:hover {
 }
 
 .map-img {
-    width: 200px; /* Tamanho fixo do mapa no card */
+    width: 230px; /* Mapa levemente aumentado para facilitar marcação */
     max-width: 100%;
     border-radius: 5px;
     border: 1px solid #444;
@@ -256,11 +257,11 @@ button:hover {
 /* O marcador da tumba agora é um ponto amarelo para melhor visibilidade */
 .tumulo-marker {
     position: absolute;
-    width: 10px;
-    height: 10px;
+    width: 6px; /* Tamanho reduzido para não cobrir tanto do mapa */
+    height: 6px;
     background-color: #ffd700;
     border-radius: 50%;
-    box-shadow: 0 0 8px 3px rgba(255, 215, 0, 0.8);
+    box-shadow: 0 0 6px 2px rgba(255, 215, 0, 0.8);
     transform: translate(-50%, -50%);
     pointer-events: none; /* Para não bugar outros cliques */
     z-index: 10;
@@ -281,4 +282,30 @@ button:hover {
 .clear-tumba-btn:hover {
     color: #fff;
     background: none;
+}
+
+/* Títulos de Categoria */
+.titulo-categoria {
+    width: 100%;
+    text-align: center;
+    color: #8c73ff;
+    font-size: 1.8em;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #5a5a7b;
+    padding-bottom: 5px;
+}
+
+#wrapper-categorias {
+    width: 90%;
+    max-width: 1200px; /* Pode ser maior para acomodar todos */
+}
+
+/* Rodapé espaçado do fundo */
+.rodape {
+    margin-top: auto;
+    padding: 30px;
+    text-align: center;
+    color: #888;
+    font-size: 0.9em;
 }

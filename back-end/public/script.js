@@ -101,7 +101,7 @@ const temposIniciaisRespawn = {
 };
 
 const form = document.getElementById('respawnForm');
-const resultadoContainer = document.getElementById('resultado-container');
+const wrapperCategorias = document.getElementById('wrapper-categorias'); // Usaremos o wrapper completo para os cliques
 const horaMorteInput = document.getElementById('horaMorte');
 const statusMessage = document.getElementById('status-message');
 
@@ -256,12 +256,16 @@ const renderizarCard = (respawn) => {
 
             <p class="${estiloRespawn}">Respawn: ${respawnFormatado}</p>
         `;
-        resultadoContainer.appendChild(novoCard);
+
+        // Identifica a categoria para colocar no contêiner correto
+        const isMVP = ['ifrit', 'valk', 'wsm', 'corrupted', 'amdarais', 'thanatos'].includes(monstro);
+        const containerAlvo = isMVP ? document.getElementById('resultado-mvps') : document.getElementById('resultado-miniboss');
+        containerAlvo.appendChild(novoCard);
     }
 };
 
 // Delegação de Eventos (Delete e Marcação de Tumba)
-resultadoContainer.addEventListener('click', async (event) => {
+wrapperCategorias.addEventListener('click', async (event) => {
     
     // 1. Exclusão do Card
     const deleteBtn = event.target.closest('.delete-btn');
