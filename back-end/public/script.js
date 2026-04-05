@@ -103,7 +103,6 @@ const temposIniciaisRespawn = {
 const form = document.getElementById('respawnForm');
 const wrapperCategorias = document.getElementById('wrapper-categorias'); // Usaremos o wrapper completo para os cliques
 const horaMorteInput = document.getElementById('horaMorte');
-const statusMessage = document.getElementById('status-message');
 
 // Funções para formatar e calcular a data (mantenha a mesma)
 const formatarData = (data) => {
@@ -149,14 +148,14 @@ const renderizarCard = (respawn) => {
     const imagemMonstro = imagensMonstros[monstro];
     const nomeMapa = mapasMonstros[monstro] || 'Mapa Desconhecido';
     
-    // Imagem do mapa vinda do RateMyServer ou DivinePride
+    // Imagem do mapa local
     let urlMapaImg;
     if (monstro === 'corrupted') {
-        urlMapaImg = 'https://file5s.ratemyserver.net/maps/1@gl_k.gif';
+        urlMapaImg = 'maps/1@gl_k.gif';
     } else if (monstro === 'amdarais') {
-        urlMapaImg = 'https://file5s.ratemyserver.net/maps/2@gl_k.gif';
+        urlMapaImg = 'maps/2@gl_k.gif';
     } else {
-        urlMapaImg = `https://www.divine-pride.net/img/map/original/${nomeMapa}`;
+        urlMapaImg = `maps/${nomeMapa}.gif`;
     }
 
     // Lógica para a formatação do nome
@@ -284,13 +283,6 @@ wrapperCategorias.addEventListener('click', async (event) => {
 
             setTimeout(() => { if (card.parentNode) card.remove(); }, 500);
 
-            statusMessage.textContent = 'Respawn excluído com sucesso!';
-            statusMessage.classList.add('message');
-            setTimeout(() => {
-                statusMessage.style.display = 'none';
-                statusMessage.classList.remove('message');
-            }, 3000);
-            
             setTimeout(carregarRespawns, 500); 
 
         } catch (error) {
@@ -383,6 +375,8 @@ form.addEventListener('submit', async function(event) {
     const horaMorteString = horaMorteInput.value;
     const monstroSelecionado = document.getElementById('monstro').value;
 
+    if (!confirm("Tem certeza que deseja adicionar este time de MVP?")) return;
+
     if (!horaMorteString) {
         alert("Por favor, insira a hora da morte do monstro.");
         return;
@@ -390,8 +384,9 @@ form.addEventListener('submit', async function(event) {
 
     const horaMorte = new Date(horaMorteString);
     const tempoRespawnHoras = temposIniciaisRespawn[monstroSelecionado] || 1;
+    const tempoRespawnMs = tempoRespawnHoras * 60 * 60 * 1000;
 
-    horaMorte.setHours(horaMorte.getHours() + tempoRespawnHoras);
+    horaMorte.setTime(horaMorte.getTime() + tempoRespawnMs);
 
     const novoRespawn = {
         monstro: monstroSelecionado,
