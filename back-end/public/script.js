@@ -228,6 +228,10 @@ const renderizarCard = (respawn) => {
         pElement.classList.remove('respawn-futuro', 'respawn-incerteza', 'respawn-passado');
         pElement.classList.add(estiloRespawn);
 
+        // Garante que o texto de instrução esteja presente
+        const h4Element = cardExistente.querySelector('h4');
+        if (h4Element) h4Element.textContent = "Marque o local do túmulo no mapa";
+
     } else {
         const novoCard = document.createElement('div');
         novoCard.classList.add('respawn-card');
@@ -245,7 +249,7 @@ const renderizarCard = (respawn) => {
             <button class="delete-btn" data-id="${respawn._id}"><i class="fas fa-trash-alt"></i></button>
             <img src="${imagemMonstro}" alt="Imagem do monstro ${nomeMonstro}">
             <h3>${nomeFormatado}</h3>
-            <h4>${nomeMapa}</h4>
+            <h4>Marque o local do túmulo no mapa</h4>
             
             <div class="mapa-container">
                 <img src="${urlMapaImg}" class="map-img" alt="Mapa de Respawn" data-id="${respawn._id}" title="Clique para marcar o túmulo">
@@ -269,7 +273,7 @@ wrapperCategorias.addEventListener('click', async (event) => {
     // 1. Exclusão do Card
     const deleteBtn = event.target.closest('.delete-btn');
     if (deleteBtn) {
-        if (!confirm("Tem certeza que deseja deletar este time de MVP?")) return;
+        if (!confirm("Tem certeza que deseja deletar este time de MVP/Miniboss?")) return;
 
         const id = deleteBtn.getAttribute('data-id');
         const card = deleteBtn.closest('.respawn-card');
@@ -343,7 +347,7 @@ const carregarRespawns = async () => {
         const respawns = await response.json();
 
         if (Array.isArray(respawns)) {
-            // "Limpeza inteligente": Apenas remove cards que foram excuídos por OUTROS clientes
+            // "Limpeza inteligente": Apenas remove cards que foram excluídos por OUTROS clientes
             const idsAtuaisBanco = respawns.map(r => r._id);
             const cardsNaTela = document.querySelectorAll('.respawn-card');
 
@@ -375,7 +379,7 @@ form.addEventListener('submit', async function(event) {
     const horaMorteString = horaMorteInput.value;
     const monstroSelecionado = document.getElementById('monstro').value;
 
-    if (!confirm("Tem certeza que deseja adicionar este time de MVP?")) return;
+    if (!confirm("Tem certeza que deseja adicionar este time de MVP/Miniboss?")) return;
 
     if (!horaMorteString) {
         alert("Por favor, insira a hora da morte do monstro.");
