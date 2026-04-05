@@ -253,12 +253,15 @@ button:hover {
     border: 1px solid #444;
 }
 
-/* O marcador realístico da tumba usando translate(-50%, -100%) para q a base seja o pto do clique */
+/* O marcador da tumba agora é um ponto amarelo para melhor visibilidade */
 .tumulo-marker {
     position: absolute;
-    width: 20px;
-    height: 25px;
-    transform: translate(-50%, -100%);
+    width: 10px;
+    height: 10px;
+    background-color: #ffd700;
+    border-radius: 50%;
+    box-shadow: 0 0 8px 3px rgba(255, 215, 0, 0.8);
+    transform: translate(-50%, -50%);
     pointer-events: none; /* Para não bugar outros cliques */
     z-index: 10;
 }

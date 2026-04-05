@@ -150,7 +150,14 @@ const renderizarCard = (respawn) => {
     const nomeMapa = mapasMonstros[monstro] || 'Mapa Desconhecido';
     
     // Imagem do mapa vinda do RateMyServer ou DivinePride
-    const urlMapaImg = `https://www.divine-pride.net/img/map/original/${nomeMapa}`;
+    let urlMapaImg;
+    if (monstro === 'corrupted') {
+        urlMapaImg = 'https://file5s.ratemyserver.net/maps/1@gl_k.gif';
+    } else if (monstro === 'amdarais') {
+        urlMapaImg = 'https://file5s.ratemyserver.net/maps/2@gl_k.gif';
+    } else {
+        urlMapaImg = `https://www.divine-pride.net/img/map/original/${nomeMapa}`;
+    }
 
     // Lógica para a formatação do nome
     let nomeFormatado;
@@ -202,8 +209,7 @@ const renderizarCard = (respawn) => {
             if (btnLimparAntigo) btnLimparAntigo.remove();
 
             if (respawn.tumbaX != null && respawn.tumbaY != null) {
-                const newMarker = document.createElement('img');
-                newMarker.src = "https://file5.ratemyserver.net/items/small/708.gif"; // ID 708
+                const newMarker = document.createElement('div');
                 newMarker.classList.add('tumulo-marker');
                 newMarker.style.left = `${respawn.tumbaX}%`;
                 newMarker.style.top = `${respawn.tumbaY}%`;
@@ -232,7 +238,7 @@ const renderizarCard = (respawn) => {
         let htmlTumba = '';
         let htmlBtnLimpar = '';
         if (respawn.tumbaX != null && respawn.tumbaY != null) {
-            htmlTumba = `<img src="https://file5.ratemyserver.net/items/small/708.gif" class="tumulo-marker" style="left: ${respawn.tumbaX}%; top: ${respawn.tumbaY}%;">`;
+            htmlTumba = `<div class="tumulo-marker" style="left: ${respawn.tumbaX}%; top: ${respawn.tumbaY}%;"></div>`;
             htmlBtnLimpar = `<button class="clear-tumba-btn" data-id="${respawn._id}">Limpar Marcação</button>`;
         }
 
