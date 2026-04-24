@@ -7,10 +7,32 @@ const Respawn = require('./models/Respawn'); // Importa o modelo
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Conecta ao MongoDB
-mongoose.connect(process.env.MONGODB_URI)
-    .then(() => console.log('Conexão com o MongoDB estabelecida com sucesso!'))
-    .catch(err => console.error('Erro ao conectar ao MongoDB:', err));
+// Variável de cache para a conexão no ambiente Serverless (Vercel)
+let isConnected = false;
+
+const connectDB = async () => {
+    if (isConnected) {
+        return; // Reutiliza a conexão existente
+    }
+    try {
+        const db = await mongoose.connect(process.env.MONGODB_URI);
+        isConnected = db.connections[0].readyState === 1;
+        console.log('Conexão com o MongoDB estabelecida (Serverless Mode)!');
+    } catch (error) {
+        console.error('Erro ao conectar ao MongoDB:', error);
+        throw error; // Lança o erro para ser capturado pelo middleware
+    }
+};
+
+// Middleware para garantir conexão com o banco em todas as requisições /api
+app.use('/api', async (req, res, next) => {
+    try {
+        await connectDB();
+        next();
+    } catch (error) {
+        return res.status(500).json({ message: "Falha interna na conexão com o banco de dados (Cold Start)." });
+    }
+});
 
 // Middleware para permitir que o front-end acesse o back-end
 app.use(cors());
@@ -100,3 +122,6 @@ app.delete('/api/respawns/:id', async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
+
+// Exporta o app para que a Vercel possa usá-lo como Serverless Function adequadamente
+module.exports = app;
