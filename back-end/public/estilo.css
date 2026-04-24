@@ -356,20 +356,22 @@ button[type="submit"]:hover {
 }
 
 .map-img {
+    display: block; /* Remove o espaço invisível abaixo da imagem, corrigindo o cálculo do clique */
     width: 230px; /* Mapa levemente aumentado para facilitar marcação */
     max-width: 100%;
     border-radius: 5px;
     border: 1px solid #444;
 }
 
-/* O marcador da tumba agora é um ponto amarelo para melhor visibilidade */
+/* O marcador da tumba ajustado para vermelho com borda branca para máxima visibilidade */
 .tumulo-marker {
     position: absolute;
-    width: 6px; /* Tamanho reduzido para não cobrir tanto do mapa */
-    height: 6px;
-    background-color: #ffd700;
+    width: 8px; /* Tamanho levemente aumentado */
+    height: 8px;
+    background-color: #ff3333; /* Vermelho vivo */
+    border: 1.5px solid #ffffff; /* Borda branca para destacar em mapas escuros */
     border-radius: 50%;
-    box-shadow: 0 0 6px 2px rgba(255, 215, 0, 0.8);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.8); /* Sombra escura para destacar em mapas claros */
     transform: translate(-50%, -50%);
     pointer-events: none; /* Para não bugar outros cliques */
     z-index: 10;
