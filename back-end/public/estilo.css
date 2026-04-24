@@ -34,14 +34,51 @@ h1 {
 
 #detalhe {
     font-size: 1.5em;
-
 }
+
+/* Relógio duplo no cabeçalho */
+.clock-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.clock-item {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid #444;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 130px;
+}
+
+.clock-label {
+    font-size: 0.65em;
+    text-transform: uppercase;
+    color: #8c73ff;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+}
+
+#relogio-digital, #relogio-server {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #ffd700;
+    margin: 0;
+}
+
 /* Estilo para agrupar os campos de entrada */
 .form-group {
-    display: flex; /* Habilita o Flexbox */
-    gap: 100px; /* Adiciona um espaço entre os itens */
-    justify-content: space-between; /* Distribui o espaço entre os itens */
-    align-items: flex-end; /* Alinha a base dos elementos (inputs e selects) */
+    display: flex;
+    gap: 30px; /* Reduzido de 100px para 30px para ficar mais compacto */
+    justify-content: center;
+    align-items: flex-start; /* Alinhamento pelo topo para as labels ficarem iguais */
+    margin-bottom: 20px;
 }
 
 /* Estilo para os contêineres individuais */
@@ -75,22 +112,60 @@ input[type="datetime-local"], select {
     font-size: 1em;
 }
 
-/* Estilo para o botão */
-button {
-    background-color: #8c73ff; /* Cor roxa para o botão */
-    color: white;
-    padding: 15px 18px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.17em;
-    font-weight: bold;
-    cursor: pointer; /* Muda o cursor para indicar que é clicável */
-    transition: background-color 0.3s ease; /* Transição suave ao passar o mouse */
+.timezone-toggle {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    margin-top: 12px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 8px;
+    border-radius: 10px;
+    border: 1px solid #444;
 }
 
-/* Estilo ao passar o mouse por cima do botão */
-button:hover {
-    background-color: #a48eff; /* Cor mais clara para o hover */
+.timezone-option {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 0.9em;
+    color: #aaa;
+    padding: 5px 10px;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.timezone-option:has(input:checked) {
+    background: rgba(140, 115, 255, 0.2);
+    color: #fff;
+}
+
+.timezone-option input {
+    margin: 0;
+    width: 14px;
+    height: 14px;
+}
+
+/* Estilo para o botão */
+button[type="submit"] {
+    display: block;
+    margin: 20px auto; /* Centraliza o botão */
+    background-color: #8c73ff;
+    color: white;
+    padding: 15px 40px; /* Mais largo para destaque */
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(140, 115, 255, 0.3);
+}
+
+button[type="submit"]:hover {
+    background-color: #a48eff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(140, 115, 255, 0.4);
 }
 
 /* Estilo para o resultado do cálculo */
@@ -170,11 +245,43 @@ button:hover {
     color: #dd0e0e; /* Cor vermelha para a data */
 }
 
-#relogio-digital {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #ffd700; /* Dourado */
-    margin-left: 10px;
+/* Horário GMT nos cards */
+.respawn-gmt {
+    font-size: 0.8em !important;
+    color: #aaa !important;
+    margin-top: -5px !important;
+    margin-bottom: 10px !important;
+    font-weight: normal !important;
+}
+
+.respawn-gmt i {
+    font-size: 0.9em;
+    margin-right: 4px;
+    color: #8c73ff;
+}
+/* Media Query para Responsividade Mobile */
+@media (max-width: 768px) {
+    .form-group {
+        flex-direction: column; /* Empilha os campos verticalmente */
+        gap: 15px;
+        align-items: stretch; /* Faz os campos ocuparem a largura total */
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    .clock-container {
+        gap: 10px;
+    }
+
+    .clock-item {
+        min-width: 45%; /* Relógios lado a lado se couberem, ou um por linha */
+    }
+
+    button[type="submit"] {
+        width: 100%; /* Botão ocupa a largura total no mobile */
+    }
 }
 
 .delete-btn {
@@ -223,6 +330,7 @@ button:hover {
   background-color: rgba(0, 0, 0, 0.5);
   animation: time 3s forwards;
 }
+
 @keyframes time {
   0% {
     width: 0;
@@ -308,4 +416,4 @@ button:hover {
     text-align: center;
     color: #888;
     font-size: 0.9em;
-}
+}

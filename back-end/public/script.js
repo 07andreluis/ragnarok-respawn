@@ -1,13 +1,25 @@
-// Função para atualizar o relógio digital
+// Função para atualizar os relógios (Local e Servidor)
 function atualizarRelogio() {
     const agora = new Date();
+    
+    // Relógio Local
     const horas = agora.getHours().toString().padStart(2, '0');
     const minutos = agora.getMinutes().toString().padStart(2, '0');
     const segundos = agora.getSeconds().toString().padStart(2, '0');
-
+    
     const relogioElemento = document.getElementById('relogio-digital');
     if (relogioElemento) {
         relogioElemento.textContent = `${horas}:${minutos}:${segundos}`;
+    }
+
+    // Relógio Servidor (GMT+0)
+    const horasGMT = agora.getUTCHours().toString().padStart(2, '0');
+    const minutosGMT = agora.getUTCMinutes().toString().padStart(2, '0');
+    const segundosGMT = agora.getUTCSeconds().toString().padStart(2, '0');
+    
+    const relogioServerElemento = document.getElementById('relogio-server');
+    if (relogioServerElemento) {
+        relogioServerElemento.textContent = `${horasGMT}:${minutosGMT}:${segundosGMT}`;
     }
 }
 
@@ -138,6 +150,18 @@ dataMaxima.setHours(dataMaxima.getHours() + horasIntervalo);
 horaMorteInput.min = formatarData(dataMinima);
 horaMorteInput.max = formatarData(dataMaxima);
 
+// Carrega preferência de fuso horário
+const timezonePreferida = localStorage.getItem('timezone_pref') || 'local';
+const radioTimezone = document.querySelector(`input[name="timezone"][value="${timezonePreferida}"]`);
+if (radioTimezone) radioTimezone.checked = true;
+
+// Salva preferência ao mudar
+document.querySelectorAll('input[name="timezone"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+        localStorage.setItem('timezone_pref', e.target.value);
+    });
+});
+
 // Opcionalmente, define o valor inicial para a data e hora atuais
 horaMorteInput.value = formatarData(dataAtual);
 
@@ -258,6 +282,7 @@ const renderizarCard = (respawn) => {
             ${htmlBtnLimpar}
 
             <p class="${estiloRespawn}">Respawn: ${respawnFormatado}</p>
+            <p class="respawn-gmt"><i class="fas fa-globe"></i> Servidor: ${horarioRespawn.getUTCHours().toString().padStart(2, '0')}:${horarioRespawn.getUTCMinutes().toString().padStart(2, '0')} (GMT+0)</p>
         `;
 
         // Identifica a categoria para colocar no contêiner correto
@@ -386,7 +411,24 @@ form.addEventListener('submit', async function(event) {
         return;
     }
 
-    const horaMorte = new Date(horaMorteString);
+    let horaMorte;
+    const timezoneSelected = document.querySelector('input[name="timezone"]:checked').value;
+
+    if (timezoneSelected === 'server') {
+        // Se selecionado Servidor, interpretamos o input como UTC
+        const dataLocal = new Date(horaMorteString);
+        // Ajustamos para UTC usando os componentes da data local como se fossem UTC
+        horaMorte = new Date(Date.UTC(
+            dataLocal.getFullYear(),
+            dataLocal.getMonth(),
+            dataLocal.getDate(),
+            dataLocal.getHours(),
+            dataLocal.getMinutes()
+        ));
+    } else {
+        horaMorte = new Date(horaMorteString);
+    }
+
     const tempoRespawnHoras = temposIniciaisRespawn[monstroSelecionado] || 1;
     const tempoRespawnMs = tempoRespawnHoras * 60 * 60 * 1000;
 
@@ -394,7 +436,7 @@ form.addEventListener('submit', async function(event) {
 
     const novoRespawn = {
         monstro: monstroSelecionado,
-        horarioRespawn: horaMorte
+        horarioRespawn: horaMorte.toISOString() // Enviamos como ISO para garantir integridade
     };
 
     await fetch('/api/respawns', {

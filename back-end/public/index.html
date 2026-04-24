@@ -10,12 +10,34 @@
 </head>
 <body>
     <h1>Calculadora de Respawn de MVPs</h1>
-    <h2 id="detalhe">(Insira o horário do local onde você estiver)<span id="relogio-digital"></span></h2>
+    <div id="detalhe">
+        <div class="clock-container">
+            <div class="clock-item">
+                <span class="clock-label">Horário Local</span>
+                <span id="relogio-digital"></span>
+            </div>
+            <div class="clock-item">
+                <span class="clock-label">Servidor (GMT+0)</span>
+                <span id="relogio-server"></span>
+            </div>
+        </div>
+    </div>
     <form id="respawnForm">
         <div class="form-group">
             <div class="input-container">
                 <label for="horaMorte">Horário da morte:</label>
                 <input type="datetime-local" id="horaMorte" name="horaMorte" required>
+                
+                <div class="timezone-toggle">
+                    <label class="timezone-option">
+                        <input type="radio" name="timezone" value="local" checked>
+                        <span><i class="fas fa-home"></i> Local</span>
+                    </label>
+                    <label class="timezone-option">
+                        <input type="radio" name="timezone" value="server">
+                        <span><i class="fas fa-globe"></i> Servidor (GMT+0)</span>
+                    </label>
+                </div>
             </div>
             <div class="input-container">
                 <label for="monstro">Monstro:</label>
