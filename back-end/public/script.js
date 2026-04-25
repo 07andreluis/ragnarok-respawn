@@ -12,7 +12,7 @@ function atualizarRelogio() {
         relogioElemento.textContent = `${horas}:${minutos}:${segundos}`;
     }
 
-    // Relógio Servidor (GMT+0)
+    // Relógio Servidor (UTC)
     const horasGMT = agora.getUTCHours().toString().padStart(2, '0');
     const minutosGMT = agora.getUTCMinutes().toString().padStart(2, '0');
     const segundosGMT = agora.getUTCSeconds().toString().padStart(2, '0');
@@ -524,7 +524,7 @@ const renderizarCard = (respawn) => {
             ${htmlBtnLimpar}
 
             <p class="${estiloRespawn}">Respawn: ${respawnFormatado}</p>
-            <p class="respawn-gmt"><i class="fas fa-globe"></i> Servidor: ${horarioRespawn.getUTCHours().toString().padStart(2, '0')}:${horarioRespawn.getUTCMinutes().toString().padStart(2, '0')} (GMT+0)</p>
+            <p class="respawn-gmt"><i class="fas fa-globe"></i> Servidor: ${horarioRespawn.getUTCHours().toString().padStart(2, '0')}:${horarioRespawn.getUTCMinutes().toString().padStart(2, '0')} (UTC)</p>
         `;
 
         // Identifica a categoria para colocar no contêiner correto
