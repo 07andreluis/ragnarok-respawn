@@ -398,13 +398,39 @@ const renderizarCard = (respawn) => {
         urlMapaImg = `maps/${nomeMapa}.gif`;
     }
 
-    // Lógica para a formatação do nome
-    let nomeFormatado;
-    if (monstro === 'wsm') {
-        nomeFormatado = monstro.toUpperCase();
-    } else {
-        nomeFormatado = monstro.charAt(0).toUpperCase() + monstro.slice(1);
-    }
+    // Dicionário de nomes de exibição (igual ao formulário)
+    const nomesExibicao = {
+        ifrit: 'Ifrit', valk: 'Valkyrie Randgris', wsm: 'WSM',
+        corrupted: 'Corrupted Soul', amdarais: 'Amdarais', thanatos: 'Thanatos',
+        valkzinha1: 'Valkzinha (odin_tem02)', valkzinha2: 'Valkzinha (odin_tem03)',
+        valkzinha3: 'Valkzinha (odin_tem03)', angeling1: 'Angeling (pay_fild04)',
+        angeling2: 'Angeling (yuno_fild03)', angeling3: 'Angeling (xmas_dun01)',
+        deviling1: 'Deviling (pay_fild04)', deviling2: 'Deviling (yuno_fild03)',
+        ghostring1: 'Ghostring (pay_fild04)', ghostring2: 'Ghostring (prt_maze03)',
+        ghostring3: 'Ghostring (treasure02)', amonra: 'Amon Ra',
+        eremes: 'Assassin Cross Eremes', atroce1: 'Atroce (ra_fild02)',
+        atroce2: 'Atroce (ra_fild03)', atroce3: 'Atroce (ra_fild04)',
+        atroce4: 'Atroce (ve_fild01)', atroce5: 'Atroce (ve_fild02)',
+        whitelady: 'White Lady', baphomet: 'Baphomet', beelzebub: 'Beelzebub',
+        boitata: 'Boitata', darklord: 'Dark Lord', detardeurus: 'Detardeurus',
+        doppelganger: 'Doppelganger', dracula: 'Dracula', drake: 'Drake',
+        eddga: 'Eddga', evilsnakelord: 'Evil Snake Lord', fallenbishop: 'Fallen Bishop',
+        hatii: 'Hatii', gloomundernight: 'Gloom Under Night',
+        gtb: 'Golden Thief Bug', gopinich: 'Gopinich',
+        margaretha: 'High Priest Margaretha', kathryne: 'High Wizard Kathryne',
+        incantation: 'Incantation Samurai', kiel: 'Kiel D-01',
+        stormyknight: 'Stormy Knight', ladytanee: 'Lady Tanee',
+        seyren: 'Lord Knight Seyren', lordofdeath: 'Lord of Death',
+        maya: 'Maya', mistress: 'Mistress', moonlight: 'Moonlight Flower',
+        orchero: 'Orc Hero', orclord: 'Orc Lord', osiris: 'Osiris',
+        pharaoh: 'Pharaoh', phreeoni: 'Phreeoni', rsx: 'RSX-0806',
+        cecil: 'Sniper Cecil', taogunka: 'Tao Gunka', turtlegeneral: 'Turtle General',
+        vesper: 'Vesper', howard: 'Whitesmith Howard', cenia: 'Egnigem Cenia',
+        gryphon1: 'Gryphon (cmd_fild08)', gryphon2: 'Gryphon (ra_fild01) - 1',
+        gryphon3: 'Gryphon (ra_fild01) - 2', gryphon4: 'Gryphon (ra_fild01) - 3',
+        gryphon5: 'Gryphon (um_fild03)', mayapurple: 'Maya Purple'
+    };
+    const nomeFormatado = nomesExibicao[monstro] || (monstro.charAt(0).toUpperCase() + monstro.slice(1));
 
     // Converte o horário de respawn para um objeto Date
     const horarioRespawn = new Date(respawn.horarioRespawn);

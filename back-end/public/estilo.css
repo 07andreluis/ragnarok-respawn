@@ -361,7 +361,8 @@ button[type="submit"]:hover {
     width: 230px; /* Mapa levemente aumentado para facilitar marcação */
     max-width: 100%;
     border-radius: 5px;
-    border: 1px solid #444;
+    border: 1px solid #3a3a5a; /* Borda discreta, mesma paleta do card */
+    outline: none; /* Garante que não haja outline colorido do browser */
 }
 
 /* O marcador da tumba ajustado para vermelho com borda branca para máxima visibilidade */
@@ -419,4 +420,9 @@ button[type="submit"]:hover {
     text-align: center;
     color: #888;
     font-size: 0.9em;
+}
+
+.rodape strong {
+    color: #ffd700; /* Dourado — mesma cor dos relógios */
+    font-weight: bold;
 }
