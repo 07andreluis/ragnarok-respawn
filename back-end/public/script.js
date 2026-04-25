@@ -502,7 +502,16 @@ const renderizarCard = (respawn) => {
         `;
 
         // Identifica a categoria para colocar no contêiner correto
-        const isMVP = ['ifrit', 'valk', 'wsm', 'corrupted', 'amdarais', 'thanatos'].includes(monstro);
+        const isMVP = [
+            'ifrit', 'valk', 'wsm', 'corrupted', 'amdarais', 'thanatos',
+            'amonra', 'eremes', 'atroce1', 'atroce2', 'atroce3', 'atroce4', 'atroce5',
+            'whitelady', 'baphomet', 'beelzebub', 'boitata', 'darklord', 'detardeurus',
+            'doppelganger', 'dracula', 'drake', 'eddga', 'evilsnakelord', 'fallenbishop',
+            'hatii', 'gloomundernight', 'gtb', 'gopinich', 'margaretha', 'kathryne',
+            'incantation', 'kiel', 'stormyknight', 'ladytanee', 'seyren', 'lordofdeath',
+            'maya', 'mistress', 'moonlight', 'orchero', 'orclord', 'osiris', 'pharaoh',
+            'phreeoni', 'rsx', 'cecil', 'taogunka', 'turtlegeneral', 'vesper', 'howard', 'cenia'
+        ].includes(monstro);
         const containerAlvo = isMVP ? document.getElementById('resultado-mvps') : document.getElementById('resultado-miniboss');
         containerAlvo.appendChild(novoCard);
     }
