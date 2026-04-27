@@ -489,10 +489,20 @@ const renderizarCard = (respawn) => {
         }
 
         // Atualiza o horário e as classes
-        const pElement = cardExistente.querySelector('p');
-        pElement.textContent = `Respawn: ${respawnFormatado}`;
-        pElement.classList.remove('respawn-futuro', 'respawn-incerteza', 'respawn-passado');
-        pElement.classList.add(estiloRespawn);
+        const pElement = cardExistente.querySelector('p:not(.respawn-gmt)');
+        if (pElement) {
+            pElement.textContent = `Respawn: ${respawnFormatado}`;
+            pElement.classList.remove('respawn-futuro', 'respawn-incerteza', 'respawn-passado');
+            pElement.classList.add(estiloRespawn);
+        }
+
+        // Atualiza o horário UTC (Servidor) no card existente
+        const pGmtElement = cardExistente.querySelector('.respawn-gmt');
+        if (pGmtElement) {
+            const horasUTC = horarioRespawn.getUTCHours().toString().padStart(2, '0');
+            const minutosUTC = horarioRespawn.getUTCMinutes().toString().padStart(2, '0');
+            pGmtElement.innerHTML = `<i class="fas fa-globe"></i> Servidor: ${horasUTC}:${minutosUTC} (UTC)`;
+        }
 
         // Garante que o texto de instrução esteja presente
         const h4Element = cardExistente.querySelector('h4');
@@ -575,10 +585,23 @@ wrapperCategorias.addEventListener('click', async (event) => {
     const mapImg = event.target.closest('.map-img');
     if (mapImg) {
         const id = mapImg.getAttribute('data-id');
-        const rect = mapImg.getBoundingClientRect();
         
-        const xPercent = ((event.clientX - rect.left) / rect.width) * 100;
-        const yPercent = ((event.clientY - rect.top) / rect.height) * 100;
+        let xPercent, yPercent;
+        if (event.target === mapImg) {
+            // offsetX e offsetY oferecem as coordenadas relativas ao próprio elemento (mapImg)
+            // Isso evita bugs de offset por causa de padding, margens ou a posição de scroll da tela
+            xPercent = (event.offsetX / mapImg.offsetWidth) * 100;
+            yPercent = (event.offsetY / mapImg.offsetHeight) * 100;
+        } else {
+            // Fallback caso o evento não seja disparado exatamente na imagem
+            const rect = mapImg.getBoundingClientRect();
+            xPercent = ((event.clientX - rect.left) / rect.width) * 100;
+            yPercent = ((event.clientY - rect.top) / rect.height) * 100;
+        }
+
+        // Garante que os valores não ultrapassem os limites de 0% a 100%
+        xPercent = Math.max(0, Math.min(100, xPercent));
+        yPercent = Math.max(0, Math.min(100, yPercent));
 
         try {
             await fetch(`/api/respawns/${id}/tumba`, {
